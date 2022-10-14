@@ -4,10 +4,9 @@
 <dict>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Titles1</string>
-		<string>Titles2</string>
-		<string>Buttons</string>
-		<string>CursiveText</string>
+		<string>LD Grotesk Condensed Bold.ttf</string>
+		<string>LD Grotesk Condensed Ultra Light Oblique.ttf</string>
+		<string>Helvetica Bold.ttf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

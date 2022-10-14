@@ -14,8 +14,8 @@ protocol RegistrationViewProtocol: AnyObject {
     init(rootViewContoroller: PasswordViewProtocol, initialHeight: CGFloat, presenter: StartHerePresenterProtocol)
     // View protocol
     var currentViewHeight: CGFloat! {get set}
+    var keyboardHeight: CGFloat! {get set}
     // Methods
-//    func dismissAllRootViews()
 }
 
 
@@ -25,6 +25,7 @@ class RegistrationViewController: UIViewController, RegistrationViewProtocol {
     weak var presenter: StartHerePresenterProtocol!
     //MARK: View protocol
     var currentViewHeight: CGFloat!
+    var keyboardHeight: CGFloat!
     //MARK: INIT
     required init(rootViewContoroller: PasswordViewProtocol, initialHeight: CGFloat, presenter: StartHerePresenterProtocol) {
         super.init(nibName: nil, bundle: nil)
@@ -43,14 +44,17 @@ class RegistrationViewController: UIViewController, RegistrationViewProtocol {
     var passwordTextfield: UITextField!
     var userNameTextfield: UITextField!
     var registerButton: UIButton!
+    var errorLabel: UILabel? = nil
     
     //MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        setupKeyBoardNotification()
     }
     
     //MARK: METHODS
+    //MARK: View methods
     func setupViews() {
         //mark@view
         view.backgroundColor = .white
@@ -73,7 +77,7 @@ class RegistrationViewController: UIViewController, RegistrationViewProtocol {
         view.addSubview(emailTextfield)
         emailTextfield.placeholder = "email"
         emailTextfield.text = presenter.email
-        emailTextfield.font = Appearance.smallCursiveFont
+        emailTextfield.font = Appearance.buttomsFont
         let bottomLineLogin = CALayer()
         bottomLineLogin.backgroundColor = UIColor.lightGray.cgColor
         emailTextfield.borderStyle = UITextField.BorderStyle.none
@@ -96,7 +100,7 @@ class RegistrationViewController: UIViewController, RegistrationViewProtocol {
             passwordTextfield.text = self.presenter.password
         }
         passwordTextfield.isSecureTextEntry = true
-        passwordTextfield.font = Appearance.smallCursiveFont
+        passwordTextfield.font = Appearance.buttomsFont
         passwordTextfield.borderStyle = UITextField.BorderStyle.none
         let bottomLinePassword = CALayer()
         bottomLinePassword.backgroundColor = UIColor.lightGray.cgColor
@@ -109,12 +113,12 @@ class RegistrationViewController: UIViewController, RegistrationViewProtocol {
         passwordTextfield.heightAnchor.constraint(equalToConstant: textfieldsHeighConstraint).isActive = true
         passwordTextfield.leftAnchor.constraint(equalTo: emailTextfield.leftAnchor, constant: 0).isActive = true
         bottomLinePassword.frame = CGRect(x: 0.0, y: textfieldsHeighConstraint, width: view.frame.width - 50, height: 1.0)
-
+        
         //setup@userNameTextfield
         userNameTextfield = UITextField()
         view.addSubview(userNameTextfield)
-        userNameTextfield.placeholder = "username"
-        userNameTextfield.font = Appearance.smallCursiveFont
+        userNameTextfield.placeholder = "username (optional)"
+        userNameTextfield.font = Appearance.buttomsFont
         userNameTextfield.borderStyle = UITextField.BorderStyle.none
         let bottomLineLoginEmail = CALayer()
         bottomLineLoginEmail.backgroundColor = UIColor.lightGray.cgColor
@@ -127,7 +131,7 @@ class RegistrationViewController: UIViewController, RegistrationViewProtocol {
         userNameTextfield.heightAnchor.constraint(equalToConstant: textfieldsHeighConstraint).isActive = true
         userNameTextfield.leftAnchor.constraint(equalTo: passwordTextfield.leftAnchor, constant: 0).isActive = true
         bottomLineLoginEmail.frame = CGRect(x: 0.0, y: textfieldsHeighConstraint, width: view.frame.width - 50, height: 1.0)
-
+        
         //setup@nextButton
         registerButton = UIButton()
         view.addSubview(registerButton)
@@ -144,70 +148,143 @@ class RegistrationViewController: UIViewController, RegistrationViewProtocol {
         registerButton.leftAnchor.constraint(equalTo: userNameTextfield.leftAnchor, constant: 0).isActive = true
         
     }
+    func animateButton(button: UIButton) {
+        UIView.animate(withDuration: 0.2, animations: { () -> Void in
+            button.transform = .init(scaleX: 1.25, y: 1.25)
+        }) { (finished: Bool) -> Void in
+            button.isHidden = false
+            UIView.animate(withDuration: 0.25, animations: { () -> Void in
+                button.transform = .identity
+            })
+        }
+    }
+    func showRegistrationError() {
+        //setup@errorLabel
+        errorLabel = UILabel()
+        self.view.addSubview(errorLabel ?? UILabel())
+        errorLabel?.numberOfLines = 0
+        errorLabel?.textColor = .red
+        errorLabel?.textAlignment = .left
+        errorLabel?.text = "check the Internet connection and the correctness of the entered data"
+        errorLabel?.font = Appearance.buttomsFont
+        //constraints@errorLabel
+        errorLabel?.translatesAutoresizingMaskIntoConstraints = false
+        errorLabel?.topAnchor.constraint(equalTo: self.registerButton.topAnchor, constant: 0).isActive = true
+        errorLabel?.leftAnchor.constraint(equalTo: self.registerButton.rightAnchor, constant: 10).isActive = true
+        errorLabel?.widthAnchor.constraint(equalToConstant: 250).isActive = true
+        errorLabel?.heightAnchor.constraint(equalToConstant: 50).isActive = true
+    }
+    func handleEmailTextFieldError() {
+        self.emailTextfield.layer.sublayers?.first?.backgroundColor = UIColor.red.cgColor
+        self.emailTextfield.text = ""
+        self.emailTextfield.placeholder = "email should be correct"
+    }
+    func handlePasswordTextFieldError() {
+        self.passwordTextfield.layer.sublayers?.first?.backgroundColor = UIColor.red.cgColor
+        self.passwordTextfield.text = ""
+        self.passwordTextfield.placeholder = "Your password must be longer than 6 characters"
+    }
+    
+    //MARK: Keyboard methods
+    func setupKeyBoardNotification() {
+        //Notification keyboardWillShow
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil)
+        //Notification UIKeyboardWillHide
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil)
 
-
+        
+    }
+    @objc func keyboardWillShow(_ notification: Notification) {
+        print("keyboardWillShow ", Thread.current)
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            keyboardHeight = keyboardRectangle.height
+            preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: currentViewHeight + keyboardHeight)
+        }
+    }
+    @objc func keyboardWillHide(_ notification: Notification) {
+        if ((notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue) != nil {
+            preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: currentViewHeight )
+        }
+    }
+    
+    //MARK: Button methods
     @objc func tryToRegister() {
+        animateButton(button: registerButton)
+        // hide keyboard
         emailTextfield.resignFirstResponder()
         passwordTextfield.resignFirstResponder()
         userNameTextfield.resignFirstResponder()
-        //Checking textfield
-        if self.emailTextfield.text == nil || (self.emailTextfield.text?.count ?? 0) == 0 {
-            emailTextfield.layer.sublayers?.first?.backgroundColor = UIColor.red.cgColor
-            return
-        }
-        if self.passwordTextfield.text == nil || (self.passwordTextfield.text?.count ?? 0) == 0 {
-            passwordTextfield.layer.sublayers?.first?.backgroundColor = UIColor.red.cgColor
-            return
-        }
-        if self.userNameTextfield.text == nil || (self.userNameTextfield.text?.count ?? 0) == 0 {
-            userNameTextfield.layer.sublayers?.first?.backgroundColor = UIColor.red.cgColor
-            return
-        }
         //turn view size back to normal
         preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: currentViewHeight)
-        
-        //TODO: CHECK: LOGIN SHOULD HAVE AT LEAST 5 SYMBOLS
-        
+        //Checking if textfield empty ...
+        if checkTextFields() {
+            continueToRegistration()
+        } else {
+            return
+        }
+    }
+    func checkTextFields() -> Bool {
+        //Checking if textfields are OK ...
+        var flag = true
+        switch emailTextfield.text {
+        case (let text) where text?.count == 0:
+            self.handleEmailTextFieldError()
+            flag = false
+        case (let text) where !self.isValidEmail(email: text ?? ""):
+            self.handleEmailTextFieldError()
+            flag = false
+        case (_) where self.passwordTextfield.text == nil:
+            self.handlePasswordTextFieldError()
+            flag = false
+        case (_) where (self.passwordTextfield.text?.count ?? 0) < 6:
+            self.handlePasswordTextFieldError()
+            flag = false
+        case nil:
+            self.handleEmailTextFieldError()
+            flag = false
+        default: return true
+        }
+        return flag
+    }
+    func isValidEmail(email: String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailPred.evaluate(with: email)
+    }
+    //MARK: NAVIGATION
+    func continueToRegistration() {
         // sending to presenter all the parameters
-        presenter.userName = self.userNameTextfield.text!
+        if self.userNameTextfield.text?.count != 0, self.userNameTextfield.text != nil {
+            presenter.userName = self.userNameTextfield.text!
+        } else {
+            presenter.userName = "noname"
+        }
         presenter.password = self.passwordTextfield.text!
         presenter.email = self.emailTextfield.text!
+        errorLabel?.removeFromSuperview()
+        errorLabel = nil
         // try to registrer
         presenter.tryToRegister() { result in
-            print("RegistrationViewController: tryToRegister()", Thread.current)
-            
             switch result {
                 //if success -> show next VC
-            case .success(let userUID):
-                print(userUID)
+            case .success(_):
                 print("RegistrationViewController: tryToRegister() case .success", Thread.current)
-//                self.dismissAllRootViews()
-            case.failure(let error):
-                //if error —> error handeling
-                print(error.localizedDescription)
-                if error.localizedDescription == "1" {
-                    // если ошибка, то показать соответсвующую ошибку: проверка на успешность регистрации файрбэйз
-                } else if error.localizedDescription == "2" {
-                    // если ошибка, то показать соответсвующую ошибку: проверка на успешность регистрации файрбэйз
-                }
+                // in succesfull case -> SceneDelegate {Auth.auth().addStateDidChangeListener} -> will change the state of app
+            case.failure(_):
+                self.showRegistrationError()
             }
         }
     }
     
-//    func dismissAllRootViews() {
-//        //dismiss RigistrationVC
-//        self.dismiss(animated: true)
-//        //dismiss PasswordVC
-//        self.rootViewContoroller.dismissThisVC()
-//        //dismiss SignInVC
-//        self.rootViewContoroller.rootViewContoroller.dismissThisVC()
-//        // dismiss StarHereVC
-//        self.rootViewContoroller.rootViewContoroller.rootViewController.dismissThisVC()
-//    }
-    
-    @objc func cansel() {
-        // скрыть этот вью контроллер
-    }
     //MARK: Deinit
     deinit {
         print("RegistrationViewController was deinited")
@@ -218,28 +295,20 @@ class RegistrationViewController: UIViewController, RegistrationViewProtocol {
 extension RegistrationViewController: UITextFieldDelegate {
     //MARK: textFieldShouldBeginEditing
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: currentViewHeight + 160)
         return true
     }
     //MARK: textFieldDidEndEditing
     func textFieldDidEndEditing(_ textField: UITextField) {
         //loginTextField
-        if textField == self.emailTextfield {
-            preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: currentViewHeight + 160)
-        }
         if self.emailTextfield.text != nil || (self.emailTextfield.text?.count ?? 0) > 0 {
             emailTextfield.layer.sublayers?.first?.backgroundColor = UIColor.lightGray.cgColor
         }
         // passwordTextfield
-        if textField == self.passwordTextfield {
-            preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: currentViewHeight + 160)
-        }
         if self.passwordTextfield.text != nil || (self.passwordTextfield.text?.count ?? 0) > 0 {
             passwordTextfield.layer.sublayers?.first?.backgroundColor = UIColor.lightGray.cgColor
         }
         // emailTextfield
         if textField == self.userNameTextfield {
-            preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: currentViewHeight + 160)
             userNameTextfield.resignFirstResponder()
         }
         if self.userNameTextfield.text != nil || (self.userNameTextfield.text?.count ?? 0) > 0 {
@@ -250,10 +319,8 @@ extension RegistrationViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == self.emailTextfield {
             passwordTextfield.becomeFirstResponder()
-            preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: currentViewHeight + 160)
         }
         if textField == self.passwordTextfield {
-            preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: currentViewHeight + 160)
             userNameTextfield.becomeFirstResponder()
         }
         if textField == self.userNameTextfield {

@@ -19,6 +19,7 @@ protocol NetworkServiceProtocol: AnyObject {
     func deleteCurrentAccount(completion: @escaping (Result<Bool, FireBaseError>) -> ())
     func logOut()
     func findNameOfUser(completion: @escaping (String) -> ())
+    func reauthenticateAndDeleteUser(password: String)
 }
 
 // MARK: Service
@@ -28,12 +29,6 @@ enum NetworkError: Error {
     case badURL
     case downloadingFailed
     case noDataFromServer
-}
-
-//Dispatch semaphore
-class AuthenticationSemaphore {
-    static let shared = DispatchSemaphore(value: 0)
-    private init() {}
 }
 //NetworkService
 class NetworkService: NetworkServiceProtocol {
@@ -50,10 +45,11 @@ class NetworkService: NetworkServiceProtocol {
             return
         }
         
-        let request = URLRequest(url: imageUrl)
+        let request = URLRequest(url: imageUrl, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 3)
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard error == nil else {
                 completionBlock(.failure(.downloadingFailed))
+                AuthenticationSemaphore.shared.signal()
                 return
             }
             if let imageData = data {
@@ -61,6 +57,8 @@ class NetworkService: NetworkServiceProtocol {
                 AuthenticationSemaphore.shared.signal()
             } else {
                 completionBlock(.failure(.noDataFromServer))
+                AuthenticationSemaphore.shared.signal()
+
                 return
             }
         }.resume()
@@ -79,6 +77,9 @@ class NetworkService: NetworkServiceProtocol {
     }
     func findNameOfUser(completion: @escaping (String) -> ()) {
         firebaseServise.findNameOfUser(completion: completion)
+    }
+    func reauthenticateAndDeleteUser(password: String) {
+        firebaseServise.reauthenticateAndDeleteUser(password: password)
     }
 }
 

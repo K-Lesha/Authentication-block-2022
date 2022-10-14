@@ -16,6 +16,10 @@
 		8A0625EC28F837DE00D52BB2 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0625EB28F837DE00D52BB2 /* RegistrationViewController.swift */; };
 		8A44E7A728F857F40072AFF5 /* LoggedInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A44E7A628F857F40072AFF5 /* LoggedInViewController.swift */; };
 		8A44E7A928F858030072AFF5 /* LoggedInPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A44E7A828F858030072AFF5 /* LoggedInPresenter.swift */; };
+		8A70F95728F96A4D006D23E1 /* LD Grotesk Condensed Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8A70F95628F96A4D006D23E1 /* LD Grotesk Condensed Bold.ttf */; };
+		8A70F95B28F96D93006D23E1 /* Helvetica Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8A70F95A28F96D92006D23E1 /* Helvetica Bold.ttf */; };
+		8A70F95D28F96DC1006D23E1 /* LD Grotesk Condensed Ultra Light Oblique.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8A70F95C28F96DC0006D23E1 /* LD Grotesk Condensed Ultra Light Oblique.ttf */; };
+		8A70F95F28F972E7006D23E1 /* AuthenticationSemaphore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A70F95E28F972E7006D23E1 /* AuthenticationSemaphore.swift */; };
 		8A850FAC28F573870046088A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A850FAB28F573870046088A /* AppDelegate.swift */; };
 		8A850FAE28F573870046088A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A850FAD28F573870046088A /* SceneDelegate.swift */; };
 		8A850FB028F573870046088A /* StartHereViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A850FAF28F573870046088A /* StartHereViewController.swift */; };
@@ -40,6 +44,10 @@
 		8A0625EB28F837DE00D52BB2 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		8A44E7A628F857F40072AFF5 /* LoggedInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInViewController.swift; sourceTree = "<group>"; };
 		8A44E7A828F858030072AFF5 /* LoggedInPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInPresenter.swift; sourceTree = "<group>"; };
+		8A70F95628F96A4D006D23E1 /* LD Grotesk Condensed Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LD Grotesk Condensed Bold.ttf"; sourceTree = "<group>"; };
+		8A70F95A28F96D92006D23E1 /* Helvetica Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Helvetica Bold.ttf"; sourceTree = "<group>"; };
+		8A70F95C28F96DC0006D23E1 /* LD Grotesk Condensed Ultra Light Oblique.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LD Grotesk Condensed Ultra Light Oblique.ttf"; sourceTree = "<group>"; };
+		8A70F95E28F972E7006D23E1 /* AuthenticationSemaphore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationSemaphore.swift; sourceTree = "<group>"; };
 		8A850FA828F573870046088A /* Authentication block.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Authentication block.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A850FAB28F573870046088A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8A850FAD28F573870046088A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -81,6 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				8A850FCF28F575650046088A /* NetworkService.swift */,
+				8A70F95E28F972E7006D23E1 /* AuthenticationSemaphore.swift */,
 			);
 			path = "Network Service";
 			sourceTree = "<group>";
@@ -89,6 +98,9 @@
 			isa = PBXGroup;
 			children = (
 				8A0625E928F82D5700D52BB2 /* Appearance.swift */,
+				8A70F95628F96A4D006D23E1 /* LD Grotesk Condensed Bold.ttf */,
+				8A70F95A28F96D92006D23E1 /* Helvetica Bold.ttf */,
+				8A70F95C28F96DC0006D23E1 /* LD Grotesk Condensed Ultra Light Oblique.ttf */,
 			);
 			path = Appearance;
 			sourceTree = "<group>";
@@ -294,7 +306,10 @@
 				8A850FB828F5738A0046088A /* LaunchScreen.storyboard in Resources */,
 				8A0625E428F812A200D52BB2 /* GoogleService-Info.plist in Resources */,
 				8A850FB528F5738A0046088A /* Assets.xcassets in Resources */,
+				8A70F95728F96A4D006D23E1 /* LD Grotesk Condensed Bold.ttf in Resources */,
+				8A70F95B28F96D93006D23E1 /* Helvetica Bold.ttf in Resources */,
 				8A850FB328F573870046088A /* Main.storyboard in Resources */,
+				8A70F95D28F96DC1006D23E1 /* LD Grotesk Condensed Ultra Light Oblique.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -348,6 +363,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8A850FB028F573870046088A /* StartHereViewController.swift in Sources */,
+				8A70F95F28F972E7006D23E1 /* AuthenticationSemaphore.swift in Sources */,
 				8A0625E628F81C4400D52BB2 /* FirebaseService.swift in Sources */,
 				8A44E7A928F858030072AFF5 /* LoggedInPresenter.swift in Sources */,
 				8A850FAC28F573870046088A /* AppDelegate.swift in Sources */,

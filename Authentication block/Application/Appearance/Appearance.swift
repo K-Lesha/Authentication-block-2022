@@ -14,13 +14,11 @@ class Appearance {
     static var smallCursiveFont = UIFont()
     
     static func configure() {
-//        guard let titlesFont = UIFont(name: "Titles1", size: UIFont.labelFontSize) else { fatalError("failed") }
-        Appearance.titlesFont = UIFont.boldSystemFont(ofSize: 30)
-        Appearance.titlesFont = UIFont.boldSystemFont(ofSize: 30)
-        Appearance.titlesFont = UIFont.boldSystemFont(ofSize: 30)
-//        guard let buttomsFont = UIFont(name: "Buttons", size: UIFont.buttonFontSize) else { fatalError("failed") }
-        Appearance.buttomsFont = UIFont.boldSystemFont(ofSize: 12)
-//        guard let smallCursiveFont = UIFont(name: "CursiveText", size: UIFont.smallSystemFontSize) else { fatalError("failed") }
-        Appearance.smallCursiveFont = UIFont.boldSystemFont(ofSize: 10)
+        guard let titlesFont = UIFont(name: "LD Grotesk Condensed Bold", size: 40) else { fatalError("failed") }
+        Appearance.titlesFont = titlesFont
+        guard let buttomsFont = UIFont(name: "Helvetica Bold", size: 12) else { fatalError("failed") }
+        Appearance.buttomsFont = buttomsFont
+        guard let smallCursiveFont = UIFont(name: "LD Grotesk Condensed Ultra Light Oblique", size: 12) else { fatalError("failed") }
+        Appearance.smallCursiveFont = smallCursiveFont
     }
 }

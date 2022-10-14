@@ -17,10 +17,12 @@ protocol FirebaseServiceProtocol: AnyObject {
     func deleteCurrentAccount(completion: @escaping (Result<Bool, FireBaseError>) -> ())
     func logOut()
     func findNameOfUser(completion: @escaping (String) -> ())
+    func reauthenticateAndDeleteUser(password: String)
 }
 
 enum FireBaseError: Error {
     case loginError
+    case registrationError
     case deletingError
     case noSuchUserFindet
 }
@@ -32,7 +34,7 @@ class FirebaseService: FirebaseServiceProtocol {
         Auth.auth().createUser(withEmail: email, password: password) { result, error in
             print("FirebaseService: tryToSignIn", Thread.current)
             if error != nil {
-                completion(.failure(.loginError)) // TODO: передать соответсвуюущю ошибку: результат nil и ошибка, далее обработка ошибки по номеру
+                completion(.failure(.registrationError))
                 return
             }
 
@@ -42,10 +44,17 @@ class FirebaseService: FirebaseServiceProtocol {
                 completion(.success(result.user.uid))
             }
         }
+        // in succesfull case -> SceneDelegate {Auth.auth().addStateDidChangeListener} -> will change the state of app
     }
     
     func tryToLogIn(email: String, password: String, completion: @escaping (Result<String, FireBaseError>) -> ()) {
-        
+        Auth.auth().signIn(withEmail: email, password: password) {result, error in
+            guard error == nil else {
+                completion(.failure(.loginError))
+                return
+            }
+            // in succesfull case -> SceneDelegate {Auth.auth().addStateDidChangeListener} -> will change the state of app
+        }
     }
     
     func deleteCurrentAccount(completion: @escaping (Result<Bool, FireBaseError>) -> ()) {
@@ -80,6 +89,11 @@ class FirebaseService: FirebaseServiceProtocol {
             guard let userName else { return }
             completion(userName)
         }
-        
     }
+    func reauthenticateAndDeleteUser(password: String) {
+        guard let email = Auth.auth().currentUser?.email else {return}
+        self.tryToLogIn(email: email, password: password) { _ in }
+        self.deleteCurrentAccount() {_ in }
+    }
+    
 }

@@ -15,6 +15,7 @@ protocol SignInViewProtocol: AnyObject {
     init(rootViewController: StartHereViewProtocol, initialHeight: CGFloat, presenter: StartHerePresenterProtocol)
     // View protocol
     var currentViewHeight: CGFloat! {get set}
+    var keyboardHeight: CGFloat! {get set}
     func dismissThisVC()
 }
 
@@ -26,6 +27,7 @@ class SignInViewController: UIViewController, SignInViewProtocol {
 
     //MARK: View protocol
     var currentViewHeight: CGFloat!
+    var keyboardHeight: CGFloat! = 0
     //MARK: INIT
     required init(rootViewController: StartHereViewProtocol, initialHeight: CGFloat, presenter: StartHerePresenterProtocol) {
         super.init(nibName: nil, bundle: nil)
@@ -52,10 +54,12 @@ class SignInViewController: UIViewController, SignInViewProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        setupKeyBoardNotification()
     }
     
     
     //MARK: METHODS
+    //MARK: View methods
     private func setupViews() {
         //mark@view
         view.backgroundColor = .white
@@ -98,7 +102,7 @@ class SignInViewController: UIViewController, SignInViewProtocol {
         let bottomLine = CALayer()
         bottomLine.backgroundColor = UIColor.lightGray.cgColor
         emailTextField.borderStyle = UITextField.BorderStyle.none
-        emailTextField.font = Appearance.smallCursiveFont
+        emailTextField.font = Appearance.buttomsFont
         emailTextField.layer.addSublayer(bottomLine)
         emailTextField.delegate = self
         //constraints@loginTextfield
@@ -167,25 +171,78 @@ class SignInViewController: UIViewController, SignInViewProtocol {
         nextButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
         nextButton.leftAnchor.constraint(equalTo: signInLabel.leftAnchor, constant: 0).isActive = true
     }
+    func setNextButton() {
+        //button animation
+        nextButton.isHidden = false
+        UIView.animate(withDuration: 0.2, animations: { () -> Void in
+            self.nextButton.transform = .init(scaleX: 1.25, y: 1.25)
+        }) { (finished: Bool) -> Void in
+            self.nextButton.isHidden = false
+            UIView.animate(withDuration: 0.25, animations: { () -> Void in
+                self.nextButton.transform = .identity
+            })
+        }
+    }
+    func setupKeyBoardNotification() {
+        //Notification keyboardWillShow
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil)
+        //Notification UIKeyboardWillHide
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil)
+
+        
+    }
+    @objc func keyboardWillShow(_ notification: Notification) {
+        print("keyboardWillShow ", Thread.current)
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            keyboardHeight = keyboardRectangle.height
+            preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: currentViewHeight + keyboardHeight)
+        }
+    }
+    @objc func keyboardWillHide(_ notification: Notification) {
+        if ((notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue) != nil {
+            preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: currentViewHeight )
+        }
+    }
+    
+    func isValidEmail(email: String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+
+        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailPred.evaluate(with: email)
+    }
+    func showError() {
+        self.emailTextField.layer.sublayers?.first?.backgroundColor = UIColor.red.cgColor
+        emailTextField.text = ""
+        emailTextField.placeholder = "email should be correct"
+    }
 
     //MARK: NAVIGATION
     @objc func nextButtonTapped() {
+        setNextButton()
         guard let emailString = self.emailTextField.text else {
-            //TODO: ALERT: ERROR, TEXTFIELD IS EMPTY
-            print("ERROR TEXTFIELD IS EMPTY")
+            showError()
             return
         }
-        if emailString.count >= 5 {
+        if emailString.count >= 5, self.isValidEmail(email: emailString) {
             emailTextField.resignFirstResponder()
             presenter.email = emailString
-            countinueToPassword()
+            countinueToPasswordViewController()
         } else {
-            //TODO: ALERT: LOGIN SHOULD HAVE AT LEAST 5 SYMBOLS
-            print("ERROR TEXTFIELD IS EMPTY")
+            showError()
+            return
         }
     }
-    func countinueToPassword() {
-        let viewControllerToPresent = PasswordViewController(rootViewContoroller: self, initialHeight: 245, presenter: self.presenter)
+    func countinueToPasswordViewController() {
+        let viewControllerToPresent = PasswordViewController(rootViewContoroller: self, initialHeight: 200, presenter: self.presenter)
         presentBottomSheetInsideNavigationController(
             viewController: viewControllerToPresent,
             configuration:.init(cornerRadius: 15, pullBarConfiguration: .visible(.init(height: -5)), shadowConfiguration: .default))
@@ -198,15 +255,12 @@ class SignInViewController: UIViewController, SignInViewProtocol {
     deinit {
         print("SignInViewController was deinited")
     }
-
-
 }
 
 //MARK: UITextFieldDelegate
 extension SignInViewController: UITextFieldDelegate {
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        nextButton.isHidden = false
-        preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: currentViewHeight + 260)
+        setNextButton()
         return true
     }
     func textFieldDidEndEditing(_ textField: UITextField) {

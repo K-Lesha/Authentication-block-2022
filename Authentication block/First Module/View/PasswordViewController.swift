@@ -15,6 +15,7 @@ protocol PasswordViewProtocol: AnyObject {
     init(rootViewContoroller: SignInViewProtocol, initialHeight: CGFloat, presenter: StartHerePresenterProtocol)
     // View protocol
     var currentViewHeight: CGFloat! {get set}
+    var keyboardHeight: CGFloat! {get set}
     // Methods
     func dismissThisVC()
 }
@@ -26,6 +27,7 @@ class PasswordViewController: UIViewController, PasswordViewProtocol {
     weak var presenter: StartHerePresenterProtocol!
     //MARK: View protocol
     var currentViewHeight: CGFloat!
+    var keyboardHeight: CGFloat!
     //MARK: INIT
     required init(rootViewContoroller: SignInViewProtocol, initialHeight: CGFloat, presenter: StartHerePresenterProtocol) {
         super.init(nibName: nil, bundle: nil)
@@ -45,12 +47,15 @@ class PasswordViewController: UIViewController, PasswordViewProtocol {
     var noSuchUserLabel: UILabel!
     var registerButton: UIButton!
     var tryAgainButton: UIButton!
+    var errorLabel: UILabel? = nil
     //MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        setupKeyBoardNotification()
     }
     //MARK: METHODS
+    //MARK: View methods
     func setupViews() {
         //mark@view
         view.backgroundColor = .white
@@ -72,7 +77,7 @@ class PasswordViewController: UIViewController, PasswordViewProtocol {
         passwordTextField = UITextField()
         view.addSubview(passwordTextField)
         passwordTextField.placeholder = "password"
-        passwordTextField.font = Appearance.smallCursiveFont
+        passwordTextField.font = Appearance.buttomsFont
         let bottomLine = CALayer()
         bottomLine.backgroundColor = UIColor.lightGray.cgColor
         passwordTextField.borderStyle = UITextField.BorderStyle.none
@@ -95,7 +100,6 @@ class PasswordViewController: UIViewController, PasswordViewProtocol {
         tryToLoginButton.backgroundColor = .white
         tryToLoginButton.titleLabel?.font = Appearance.buttomsFont
         tryToLoginButton.setTitleColor(.orange, for: .normal)
-        tryToLoginButton.isHidden = true
         tryToLoginButton.layer.cornerRadius = 15
         tryToLoginButton.addTarget(self, action: #selector(tryToLogin), for: .touchUpInside)
         //constraints@tryToLoginButton
@@ -113,7 +117,7 @@ class PasswordViewController: UIViewController, PasswordViewProtocol {
         createAccountButton.titleLabel?.font = Appearance.buttomsFont
         createAccountButton.titleLabel?.textAlignment = .left
         createAccountButton.layer.cornerRadius = 15
-        createAccountButton.addTarget(self, action: #selector(countinueToRegistration), for: .touchUpInside)
+        createAccountButton.addTarget(self, action: #selector(tryToRegister), for: .touchUpInside)
         //constraints@createAccountButton
         createAccountButton.translatesAutoresizingMaskIntoConstraints = false
         createAccountButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 10).isActive = true
@@ -121,20 +125,119 @@ class PasswordViewController: UIViewController, PasswordViewProtocol {
         createAccountButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
         createAccountButton.widthAnchor.constraint(equalToConstant: 160).isActive = true
     }
-    //MARK: NAVIGATION
-    @objc func tryToLogin() {
-        //TODO: ALERT LOGIN SHOULD HAVE AT LEAST 5 SYMBOLS
-        // если успешно, то показать залогиненный вьюконтроллер
-        // если логина и пароля такого нет, то ниже высплывают остальные элементы — noSuchUserLabel, registerButton, tryAgainButton
-        //TODO: настроить
+    func animateButton(button: UIButton) {
+        UIView.animate(withDuration: 0.2, animations: { () -> Void in
+            button.transform = .init(scaleX: 1.25, y: 1.25)
+        }) { (finished: Bool) -> Void in
+            button.isHidden = false
+            UIView.animate(withDuration: 0.25, animations: { () -> Void in
+                button.transform = .identity
+            })
+        }
     }
-    @objc func countinueToRegistration() {
+    func showError() {
+        self.passwordTextField.layer.sublayers?.first?.backgroundColor = UIColor.red.cgColor
+        passwordTextField.text = ""
+        passwordTextField.placeholder = "Your password must be longer than 6 characters"
+    }
+    func showLogginInError() {
+        //setup@errorLabel
+        errorLabel = UILabel()
+        self.view.addSubview(errorLabel ?? UILabel())
+        errorLabel?.numberOfLines = 0
+        errorLabel?.textColor = .red
+        errorLabel?.textAlignment = .left
+        errorLabel?.text = "check the Internet connection and the correctness of the entered data"
+        errorLabel?.font = Appearance.buttomsFont
+        //constraints@errorLabel
+        errorLabel?.translatesAutoresizingMaskIntoConstraints = false
+        errorLabel?.topAnchor.constraint(equalTo: self.createAccountButton.bottomAnchor, constant: 5).isActive = true
+        errorLabel?.leftAnchor.constraint(equalTo: self.tryToLoginButton.leftAnchor, constant: 10).isActive = true
+        errorLabel?.widthAnchor.constraint(equalToConstant: 250).isActive = true
+        errorLabel?.heightAnchor.constraint(equalToConstant: 50).isActive = true
+    }
+    //MARK: Keyboard methods
+    func setupKeyBoardNotification() {
+        //Notification keyboardWillShow
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil)
+        //Notification UIKeyboardWillHide
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil)
+
+        
+    }
+    @objc func keyboardWillShow(_ notification: Notification) {
+        print("keyboardWillShow ", Thread.current)
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            keyboardHeight = keyboardRectangle.height
+            preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: currentViewHeight + keyboardHeight)
+        }
+    }
+    @objc func keyboardWillHide(_ notification: Notification) {
+        if ((notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue) != nil {
+            preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: currentViewHeight )
+        }
+    }
+    //MARK: Button methods
+    @objc func tryToLogin() {
+        animateButton(button: tryToLoginButton)
+        if checkPasswordTextFeild() {
+            presenter.password = self.passwordTextField.text ?? ""
+            continueToLogginedInViewController()
+        } else {
+            return
+        }
+    }
+    @objc func tryToRegister() {
+        animateButton(button: createAccountButton)
+        if checkPasswordTextFeild() {
+            presenter.password = self.passwordTextField.text ?? ""
+            continueToRegistrationViewController()
+        } else {
+            return
+        }
+    }
+    func checkPasswordTextFeild() -> Bool {
+        guard let passwordString = self.passwordTextField.text else {
+            showError()
+            return false
+        }
+        if passwordString.count >= 6 {
+            passwordTextField.resignFirstResponder()
+            return true
+        } else {
+            showError()
+            return false
+        }
+    }
+    //MARK: NAVIGATION
+    func continueToRegistrationViewController() {
+        //change view vize to normal
         preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: currentViewHeight)
-        let viewControllerToPresent = RegistrationViewController(rootViewContoroller: self, initialHeight: 300, presenter: self.presenter)
-        presenter.password = self.passwordTextField.text ?? ""
+        //show next modal view
+        let viewControllerToPresent = RegistrationViewController(rootViewContoroller: self, initialHeight: 200, presenter: self.presenter)
         presentBottomSheetInsideNavigationController(
             viewController: viewControllerToPresent,
             configuration:.init(cornerRadius: 15, pullBarConfiguration: .visible(.init(height: -5)), shadowConfiguration: .default))
+    }
+    func continueToLogginedInViewController() {
+        presenter.tryToLogin { result in
+            switch result {
+            case .success(_):
+                print("ok")
+            case .failure(let error):
+                print(error.localizedDescription)
+                self.showLogginInError()
+            }
+        }
     }
     //MARK: Deinit
     func dismissThisVC() {
@@ -148,17 +251,11 @@ class PasswordViewController: UIViewController, PasswordViewProtocol {
 //MARK: UITextFieldDelegate
 extension PasswordViewController: UITextFieldDelegate {
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        tryToLoginButton.isHidden = false
-        preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: currentViewHeight + 260)
+
         return true
     }
     func textFieldDidEndEditing(_ textField: UITextField) {
         preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: currentViewHeight)
-        if textField == self.passwordTextField {
-            if self.passwordTextField.text?.count == 0 || self.passwordTextField.text == nil {
-                tryToLoginButton.isHidden = true
-            }
-        }
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == self.passwordTextField {

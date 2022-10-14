@@ -20,6 +20,7 @@ protocol LoggedInPresenterProtocol: AnyObject {
     // METHODS
     func deleteCurrentAccount(completion: @escaping (Result<Bool, FireBaseError>) -> ())
     func logOut()
+    func reauthenticateAndDeleteUser(password: String)
 }
 
 //MARK: Presenter
@@ -42,7 +43,7 @@ class LoggedInPresenter: LoggedInPresenterProtocol {
     //MARK: TEMP DATA
     var userName: String! {
         didSet {
-            view.userNameLabel.text = "Hi " + userName
+            view.setNewValueForUserNamelabel(newUserName: userName)
         }
     }
     var userUID: String!
@@ -54,7 +55,9 @@ class LoggedInPresenter: LoggedInPresenterProtocol {
     func logOut() {
         networkService.logOut()
     }
-
+    func reauthenticateAndDeleteUser(password: String) {
+        networkService.reauthenticateAndDeleteUser(password: password)
+    }
     
 
 }
