@@ -25,7 +25,6 @@
 		8A850FC328F5743B0046088A /* AssemblyModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A850FC228F5743B0046088A /* AssemblyModuleBuilder.swift */; };
 		8A850FC528F574450046088A /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A850FC428F574450046088A /* Router.swift */; };
 		8A850FCB28F5748C0046088A /* StartHerePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A850FCA28F5748C0046088A /* StartHerePresenter.swift */; };
-		8A850FCD28F5749F0046088A /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A850FCC28F5749F0046088A /* UserModel.swift */; };
 		8A850FD028F575650046088A /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A850FCF28F575650046088A /* NetworkService.swift */; };
 		8A850FE228F5FDFC0046088A /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A850FE128F5FDFC0046088A /* SignInViewController.swift */; };
 /* End PBXBuildFile section */
@@ -52,7 +51,6 @@
 		8A850FC228F5743B0046088A /* AssemblyModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssemblyModuleBuilder.swift; sourceTree = "<group>"; };
 		8A850FC428F574450046088A /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		8A850FCA28F5748C0046088A /* StartHerePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartHerePresenter.swift; sourceTree = "<group>"; };
-		8A850FCC28F5749F0046088A /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		8A850FCF28F575650046088A /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		8A850FE128F5FDFC0046088A /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -134,7 +132,6 @@
 				8A850FC228F5743B0046088A /* AssemblyModuleBuilder.swift */,
 				8A850FC428F574450046088A /* Router.swift */,
 				8A70F94428F8C504006D23E1 /* Appearance */,
-				8A850FC928F5746B0046088A /* Model */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -175,14 +172,6 @@
 				8A850FCA28F5748C0046088A /* StartHerePresenter.swift */,
 			);
 			path = Presenter;
-			sourceTree = "<group>";
-		};
-		8A850FC928F5746B0046088A /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				8A850FCC28F5749F0046088A /* UserModel.swift */,
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		8A850FCE28F575530046088A /* NetworkLayer */ = {
@@ -370,7 +359,6 @@
 				8A850FE228F5FDFC0046088A /* SignInViewController.swift in Sources */,
 				8A0625EA28F82D5700D52BB2 /* Appearance.swift in Sources */,
 				8A850FD028F575650046088A /* NetworkService.swift in Sources */,
-				8A850FCD28F5749F0046088A /* UserModel.swift in Sources */,
 				8A850FAE28F573870046088A /* SceneDelegate.swift in Sources */,
 				8A850FC328F5743B0046088A /* AssemblyModuleBuilder.swift in Sources */,
 			);
