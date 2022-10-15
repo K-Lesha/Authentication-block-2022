@@ -20,6 +20,7 @@ protocol LoggedInViewControllerProtocol: AnyObject {
 }
 //MARK: View
 class LoggedInViewController: UIViewController, LoggedInViewControllerProtocol {
+    
     //MARK: MVP protocol
     var presenter: LoggedInPresenterProtocol!
     
@@ -31,14 +32,12 @@ class LoggedInViewController: UIViewController, LoggedInViewControllerProtocol {
     var deletingInProgressView: UIView? = nil
     var activityIndicator: UIActivityIndicatorView? = nil
     
-    
     //MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .lightGray
         setupViews()
     }
-    
     //MARK: METHODS
     //MARK: View methods
     func setupViews() {

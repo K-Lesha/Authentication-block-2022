@@ -22,6 +22,7 @@ protocol StartHerePresenterProtocol: AnyObject {
     func setBackgroundImage(width: CGFloat, height: CGFloat, completion: @escaping (Result<Data, NetworkError>) -> Void)
     func tryToRegister(completion: @escaping (Result<String, FireBaseError>) -> ())
     func tryToLogin(completion: @escaping (Result<String, FireBaseError>) -> ())
+    func checkInternetConnection() -> Bool
 }
 
 //MARK: Presenter
@@ -52,7 +53,6 @@ class StartHerePresenter: StartHerePresenterProtocol {
             print(email)
         }
     }
-    
     //MARK: METHODS
     func setBackgroundImage(width: CGFloat, height: CGFloat, completion: @escaping (Result<Data, NetworkError>) -> Void) {
         let urlString = "https://source.unsplash.com/random/\(Int(width))x\(Int(height))?sig=1"
@@ -65,8 +65,7 @@ class StartHerePresenter: StartHerePresenterProtocol {
     func tryToLogin(completion: @escaping (Result<String, FireBaseError>) -> ()) {
         networkService.tryToLogIn(email: self.email, password: self.password, completion: completion)
     }
-
-    
-
-
+    func checkInternetConnection() -> Bool {
+        return networkService.checkInternetConnection()
+    }
 }

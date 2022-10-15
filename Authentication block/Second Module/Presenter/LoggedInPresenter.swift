@@ -38,7 +38,6 @@ class LoggedInPresenter: LoggedInPresenterProtocol {
         networkService.findNameOfUser() { userName in
             self.userName = userName
         }
-        
     }
     //MARK: TEMP DATA
     var userName: String! {
@@ -58,6 +57,4 @@ class LoggedInPresenter: LoggedInPresenterProtocol {
     func reauthenticateAndDeleteUser(password: String) {
         networkService.reauthenticateAndDeleteUser(password: password)
     }
-    
-
 }

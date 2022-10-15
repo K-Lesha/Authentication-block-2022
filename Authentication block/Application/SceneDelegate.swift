@@ -18,14 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
         
-        //Logut manually if needed
-//        do {
-//            try Auth.auth().signOut()
-//        } catch {
-//            print("can't deloggin")
-//        }
-        
-        print("Auth check is user loginned")
+        print("Auth check: is user loginned?")
         Auth.auth().addStateDidChangeListener { auth, user in
             if user == nil {
                 print("user == nil, first module initialization")
@@ -37,7 +30,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 router.showFirstModule()
                 self.window?.rootViewController = navigationController
             } else {
-                print("user is loginned, second module initialization")
+                print("user != nil, second module initialization")
                 guard let user = user else {return}
                 let navigationController = UINavigationController()
                 let assemblyBuilder = AssemblyModuleBuilder()

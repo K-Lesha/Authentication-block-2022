@@ -56,7 +56,7 @@ class FirebaseService: FirebaseServiceProtocol {
             // in succesfull case -> SceneDelegate {Auth.auth().addStateDidChangeListener} -> will change the state of app
         }
     }
-    
+
     func deleteCurrentAccount(completion: @escaping (Result<Bool, FireBaseError>) -> ()) {
         guard let user = Auth.auth().currentUser else {
             completion(.failure(.noSuchUserFindet))
@@ -95,5 +95,4 @@ class FirebaseService: FirebaseServiceProtocol {
         self.tryToLogIn(email: email, password: password) { _ in }
         self.deleteCurrentAccount() {_ in }
     }
-    
 }

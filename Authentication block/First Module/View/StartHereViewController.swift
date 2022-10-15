@@ -28,37 +28,46 @@ class StartHereViewController: UIViewController, StartHereViewProtocol {
     var backgroundImageView: UIImageView!
     var signInButton: UIButton!
     var textLabel: UILabel!
+    var errorLabel: UILabel? = nil
+    var errorButton: UIButton? = nil
     
     //MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupViews()
+        checkInternetConnectionAndSetupViews()
+        
     }
-    
     //MARK: METHODS
     //MARK: View methods
+    func checkInternetConnectionAndSetupViews() {
+        if presenter.checkInternetConnection() {
+            setupViews()
+        } else {
+            setupErrorViews()
+        }
+    }
     func setupViews() {
+        self.view.backgroundColor = .black
         // setup@backgroundImage
         self.backgroundImageView = UIImageView(frame: self.view.frame)
         let imageWidth = self.view.frame.width, imageHeight = self.view.frame.height
         // Download image and handle result
-        var flag = false
         DispatchQueue.global().async {
             self.presenter.setBackgroundImage(width: imageWidth, height: imageHeight) { result in
                 switch result {
                 case .success(let imageData):
                     self.handleBackgroundImage(imageData, nil)
                 case .failure(_):
-                    self.handleBackgroundImageWithError()
-                    return
+                    print("image wasn't downloaded")
                 }
             }
         }
-        self.view.addSubview(self.backgroundImageView)
         AuthenticationSemaphore.shared.wait()
+        self.view.addSubview(self.backgroundImageView)
         //Other interface elements are waiting for the background image to load
         // setup@signInButton
         self.signInButton = UIButton()
+        self.view.addSubview(signInButton)
         self.signInButton.layer.cornerRadius = 15
         self.signInButton.backgroundColor = .orange
         self.signInButton.isHidden = true
@@ -67,7 +76,7 @@ class StartHereViewController: UIViewController, StartHereViewProtocol {
         self.signInButton.titleLabel?.textAlignment = .center
         self.signInButton.titleLabel?.textColor = .white
         self.signInButton.addTarget(self, action: #selector(self.signInButtonPushed), for: .touchUpInside)
-        setSignInButton()
+        animateButton(button: signInButton)
         // constraints@signInButton
         self.signInButton.translatesAutoresizingMaskIntoConstraints = false
         self.signInButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -50).isActive = true
@@ -103,41 +112,69 @@ class StartHereViewController: UIViewController, StartHereViewProtocol {
             self.backgroundImageView.image = image
         }
     }
-    func handleBackgroundImageWithError() {
+    func setupErrorViews() {
         DispatchQueue.main.async() {
-            self.backgroundImageView = UIImageView(frame: self.view.frame)
-            self.view.addSubview(self.backgroundImageView)
-            self.backgroundImageView.backgroundColor = .darkGray
-            let label = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
-            self.backgroundImageView.addSubview(label)
-            label.center = self.view.center
-            label.textColor = .white
-            label.font = Appearance.titlesFont
-            label.text = "Check your Inthernet connection"
+            // setup@errorLabel
+            self.errorLabel = UILabel()
+            self.view.addSubview(self.errorLabel ?? UILabel())
+            self.errorLabel?.textColor = .lightGray
+            self.errorLabel?.font = Appearance.titlesFont
+            self.errorLabel?.numberOfLines = 0
+            self.errorLabel?.text = "Check your  connection and push the"
+            self.errorLabel?.textAlignment = .center
+            // constraints@errorLabel
+            self.errorLabel?.translatesAutoresizingMaskIntoConstraints = false
+            self.errorLabel?.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+            self.errorLabel?.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+            self.errorLabel?.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: -10).isActive = true
+            self.errorLabel?.heightAnchor.constraint(equalToConstant: 160).isActive = true
+            
+            //setup@errorButton
+            self.errorButton = UIButton()
+            self.view.addSubview(self.errorButton ?? UIButton())
+            self.animateButton(button: self.errorButton ?? UIButton())
+            self.errorButton?.setTitle("button", for: .normal)
+            self.errorButton?.setTitleColor(.black, for: .normal)
+            self.errorButton?.backgroundColor = .lightGray
+            self.errorButton?.layer.cornerRadius = 15
+            self.errorButton?.addTarget(self, action: #selector(self.errorButtonPushed), for: .touchUpInside)
+            //constraints@errorButton
+            self.errorButton?.translatesAutoresizingMaskIntoConstraints = false
+            self.errorButton?.topAnchor.constraint(equalTo: self.errorLabel?.bottomAnchor ?? self.view.centerYAnchor, constant: 5).isActive = true
+            self.errorButton?.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+            self.errorButton?.heightAnchor.constraint(equalToConstant: 30).isActive = true
+            self.errorButton?.widthAnchor.constraint(equalToConstant: 130).isActive = true
         }
     }
-    func setSignInButton() {
+    //MARK: Button methods
+    func animateButton(button: UIButton) {
         //button animation
-        self.view.addSubview(signInButton)
         UIView.animate(withDuration: 0.2, animations: { () -> Void in
-            self.signInButton.transform = .init(scaleX: 1.25, y: 1.25)
+            button.transform = .init(scaleX: 1.25, y: 1.25)
         }) { (finished: Bool) -> Void in
-            self.signInButton.isHidden = false
+            button.isHidden = false
             UIView.animate(withDuration: 0.5, animations: { () -> Void in
-                self.signInButton.transform = .identity
+                button.transform = .identity
             })
         }
     }
-    
+    @objc func errorButtonPushed() {
+        animateButton(button: errorButton ?? UIButton())
+        errorButton?.removeFromSuperview()
+        errorButton = nil
+        errorLabel?.removeFromSuperview()
+        errorLabel = nil
+        self.checkInternetConnectionAndSetupViews()
+    }
     //MARK: NAVIGATION
     @objc func signInButtonPushed() {
-        setSignInButton()
+        animateButton(button: signInButton)
         let viewControllerToPresent = SignInViewController(rootViewController: self, initialHeight: 200, presenter: self.presenter)
         presentBottomSheetInsideNavigationController(
             viewController: viewControllerToPresent,
             configuration:.init(cornerRadius: 15, pullBarConfiguration: .visible(.init(height: -5)), shadowConfiguration: .default))
     }
-    
+        
     //MARK: Deinit
     func dismissThisVC() {
         self.dismiss(animated: true)

@@ -28,6 +28,7 @@ class SignInViewController: UIViewController, SignInViewProtocol {
     //MARK: View protocol
     var currentViewHeight: CGFloat!
     var keyboardHeight: CGFloat! = 0
+    
     //MARK: INIT
     required init(rootViewController: StartHereViewProtocol, initialHeight: CGFloat, presenter: StartHerePresenterProtocol) {
         super.init(nibName: nil, bundle: nil)
@@ -57,7 +58,6 @@ class SignInViewController: UIViewController, SignInViewProtocol {
         setupKeyBoardNotification()
     }
     
-    
     //MARK: METHODS
     //MARK: View methods
     private func setupViews() {
@@ -76,7 +76,6 @@ class SignInViewController: UIViewController, SignInViewProtocol {
         signInLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 20).isActive = true
         signInLabel.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
         signInLabel.heightAnchor.constraint(equalToConstant: 35).isActive = true
-        
         
         //setup@subSignInLabel
         subSignInLabel = UILabel()
@@ -171,18 +170,33 @@ class SignInViewController: UIViewController, SignInViewProtocol {
         nextButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
         nextButton.leftAnchor.constraint(equalTo: signInLabel.leftAnchor, constant: 0).isActive = true
     }
-    func setNextButton() {
+    func showError() {
+        self.emailTextField.layer.sublayers?.first?.backgroundColor = UIColor.red.cgColor
+        emailTextField.text = ""
+        emailTextField.placeholder = "email should be correct"
+    }
+    //MARK: Button methods
+    func animateButton(button: UIButton) {
         //button animation
-        nextButton.isHidden = false
         UIView.animate(withDuration: 0.2, animations: { () -> Void in
-            self.nextButton.transform = .init(scaleX: 1.25, y: 1.25)
+            button.transform = .init(scaleX: 1.25, y: 1.25)
         }) { (finished: Bool) -> Void in
-            self.nextButton.isHidden = false
-            UIView.animate(withDuration: 0.25, animations: { () -> Void in
-                self.nextButton.transform = .identity
+            button.isHidden = false
+            UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                button.transform = .identity
             })
         }
     }
+    func setNextButtonToView() {
+        //button animation
+        nextButton.isHidden = false
+        animateButton(button: self.nextButton)
+    }
+    @objc func nextButtonTapped() {
+        animateButton(button: self.nextButton)
+        checkUserDataAndContinue()
+    }
+    //MARK: Keyboard methods
     func setupKeyBoardNotification() {
         //Notification keyboardWillShow
         NotificationCenter.default.addObserver(
@@ -196,8 +210,6 @@ class SignInViewController: UIViewController, SignInViewProtocol {
             selector: #selector(self.keyboardWillHide),
             name: UIResponder.keyboardWillHideNotification,
             object: nil)
-
-        
     }
     @objc func keyboardWillShow(_ notification: Notification) {
         print("keyboardWillShow ", Thread.current)
@@ -212,22 +224,14 @@ class SignInViewController: UIViewController, SignInViewProtocol {
             preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: currentViewHeight )
         }
     }
-    
+    //MARK: Other methods
     func isValidEmail(email: String) -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
 
         let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
         return emailPred.evaluate(with: email)
     }
-    func showError() {
-        self.emailTextField.layer.sublayers?.first?.backgroundColor = UIColor.red.cgColor
-        emailTextField.text = ""
-        emailTextField.placeholder = "email should be correct"
-    }
-
-    //MARK: NAVIGATION
-    @objc func nextButtonTapped() {
-        setNextButton()
+    func checkUserDataAndContinue() {
         guard let emailString = self.emailTextField.text else {
             showError()
             return
@@ -241,13 +245,13 @@ class SignInViewController: UIViewController, SignInViewProtocol {
             return
         }
     }
-    func countinueToPasswordViewController() {
+    //MARK: NAVIGATION
+        func countinueToPasswordViewController() {
         let viewControllerToPresent = PasswordViewController(rootViewContoroller: self, initialHeight: 200, presenter: self.presenter)
         presentBottomSheetInsideNavigationController(
             viewController: viewControllerToPresent,
             configuration:.init(cornerRadius: 15, pullBarConfiguration: .visible(.init(height: -5)), shadowConfiguration: .default))
     }
-    
     //MARK: Deinit
     func dismissThisVC() {
         self.dismiss(animated: true)
@@ -259,21 +263,23 @@ class SignInViewController: UIViewController, SignInViewProtocol {
 
 //MARK: UITextFieldDelegate
 extension SignInViewController: UITextFieldDelegate {
+    //textFieldShouldBeginEditing
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        setNextButton()
+        setNextButtonToView()
         return true
     }
+    //textFieldDidEndEditing
     func textFieldDidEndEditing(_ textField: UITextField) {
         preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: currentViewHeight)
         if self.emailTextField.text?.count == 0 || self.emailTextField.text == nil {
             self.nextButton.isHidden = true
         }
-
     }
+    //textFieldShouldReturn
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == self.emailTextField {
             textField.resignFirstResponder()
-            nextButtonTapped()
+            checkUserDataAndContinue()
         }
         return true
     }

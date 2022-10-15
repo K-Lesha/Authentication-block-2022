@@ -184,7 +184,6 @@ class RegistrationViewController: UIViewController, RegistrationViewProtocol {
         self.passwordTextfield.text = ""
         self.passwordTextfield.placeholder = "Your password must be longer than 6 characters"
     }
-    
     //MARK: Keyboard methods
     func setupKeyBoardNotification() {
         //Notification keyboardWillShow
@@ -199,8 +198,6 @@ class RegistrationViewController: UIViewController, RegistrationViewProtocol {
             selector: #selector(self.keyboardWillHide),
             name: UIResponder.keyboardWillHideNotification,
             object: nil)
-
-        
     }
     @objc func keyboardWillShow(_ notification: Notification) {
         print("keyboardWillShow ", Thread.current)
@@ -215,7 +212,6 @@ class RegistrationViewController: UIViewController, RegistrationViewProtocol {
             preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: currentViewHeight )
         }
     }
-    
     //MARK: Button methods
     @objc func tryToRegister() {
         animateButton(button: registerButton)
@@ -232,6 +228,7 @@ class RegistrationViewController: UIViewController, RegistrationViewProtocol {
             return
         }
     }
+    // MARK: Other methods
     func checkTextFields() -> Bool {
         //Checking if textfields are OK ...
         var flag = true
@@ -284,7 +281,6 @@ class RegistrationViewController: UIViewController, RegistrationViewProtocol {
             }
         }
     }
-    
     //MARK: Deinit
     deinit {
         print("RegistrationViewController was deinited")
@@ -293,11 +289,7 @@ class RegistrationViewController: UIViewController, RegistrationViewProtocol {
 
 //MARK: UITextFieldDelegate
 extension RegistrationViewController: UITextFieldDelegate {
-    //MARK: textFieldShouldBeginEditing
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        return true
-    }
-    //MARK: textFieldDidEndEditing
+    //textFieldDidEndEditing
     func textFieldDidEndEditing(_ textField: UITextField) {
         //loginTextField
         if self.emailTextfield.text != nil || (self.emailTextfield.text?.count ?? 0) > 0 {
@@ -315,7 +307,7 @@ extension RegistrationViewController: UITextFieldDelegate {
             userNameTextfield.layer.sublayers?.first?.backgroundColor = UIColor.lightGray.cgColor
         }
     }
-    //MARK: textFieldShouldReturn
+    //textFieldShouldReturn
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == self.emailTextfield {
             passwordTextfield.becomeFirstResponder()

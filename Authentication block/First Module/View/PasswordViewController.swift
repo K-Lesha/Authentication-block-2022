@@ -125,22 +125,12 @@ class PasswordViewController: UIViewController, PasswordViewProtocol {
         createAccountButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
         createAccountButton.widthAnchor.constraint(equalToConstant: 160).isActive = true
     }
-    func animateButton(button: UIButton) {
-        UIView.animate(withDuration: 0.2, animations: { () -> Void in
-            button.transform = .init(scaleX: 1.25, y: 1.25)
-        }) { (finished: Bool) -> Void in
-            button.isHidden = false
-            UIView.animate(withDuration: 0.25, animations: { () -> Void in
-                button.transform = .identity
-            })
-        }
-    }
-    func showError() {
+    func showPasswordError() {
         self.passwordTextField.layer.sublayers?.first?.backgroundColor = UIColor.red.cgColor
         passwordTextField.text = ""
         passwordTextField.placeholder = "Your password must be longer than 6 characters"
     }
-    func showLogginInError() {
+    func showLoginError() {
         //setup@errorLabel
         errorLabel = UILabel()
         self.view.addSubview(errorLabel ?? UILabel())
@@ -156,6 +146,17 @@ class PasswordViewController: UIViewController, PasswordViewProtocol {
         errorLabel?.widthAnchor.constraint(equalToConstant: 250).isActive = true
         errorLabel?.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
+    // MARK: Button methods
+    func animateButton(button: UIButton) {
+        UIView.animate(withDuration: 0.2, animations: { () -> Void in
+            button.transform = .init(scaleX: 1.25, y: 1.25)
+        }) { (finished: Bool) -> Void in
+            button.isHidden = false
+            UIView.animate(withDuration: 0.25, animations: { () -> Void in
+                button.transform = .identity
+            })
+        }
+    }
     //MARK: Keyboard methods
     func setupKeyBoardNotification() {
         //Notification keyboardWillShow
@@ -170,8 +171,6 @@ class PasswordViewController: UIViewController, PasswordViewProtocol {
             selector: #selector(self.keyboardWillHide),
             name: UIResponder.keyboardWillHideNotification,
             object: nil)
-
-        
     }
     @objc func keyboardWillShow(_ notification: Notification) {
         print("keyboardWillShow ", Thread.current)
@@ -207,14 +206,14 @@ class PasswordViewController: UIViewController, PasswordViewProtocol {
     }
     func checkPasswordTextFeild() -> Bool {
         guard let passwordString = self.passwordTextField.text else {
-            showError()
+            showPasswordError()
             return false
         }
         if passwordString.count >= 6 {
             passwordTextField.resignFirstResponder()
             return true
         } else {
-            showError()
+            showPasswordError()
             return false
         }
     }
@@ -235,7 +234,7 @@ class PasswordViewController: UIViewController, PasswordViewProtocol {
                 print("ok")
             case .failure(let error):
                 print(error.localizedDescription)
-                self.showLogginInError()
+                self.showLoginError()
             }
         }
     }
@@ -250,13 +249,11 @@ class PasswordViewController: UIViewController, PasswordViewProtocol {
 
 //MARK: UITextFieldDelegate
 extension PasswordViewController: UITextFieldDelegate {
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-
-        return true
-    }
+    //textFieldDidEndEditing
     func textFieldDidEndEditing(_ textField: UITextField) {
         preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: currentViewHeight)
     }
+    //textFieldShouldReturn
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == self.passwordTextField {
             textField.resignFirstResponder()
