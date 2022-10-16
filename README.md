@@ -19,10 +19,6 @@ Here is it.
 | **Views** | 1. Contains only UI methods. 2. View are independet from each other. |
 
 
-
-**Here additional info about AppDelegate and SceneDelegate to understand the whole flow**  
-<img width="663" alt="AppDelegate and SceneDelegate" src="https://user-images.githubusercontent.com/106081917/196030835-5516df03-b676-4214-9c2e-98983ed68445.png">
-
 ## Interface  
 ### Registration process  
 
