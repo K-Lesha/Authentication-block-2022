@@ -158,9 +158,8 @@ class SignInViewController: UIViewController, SignInViewProtocol {
         nextButton = UIButton()
         view.addSubview(nextButton)
         nextButton.setTitle("next", for: .normal)
-        nextButton.backgroundColor = .orange
+        nextButton.backgroundColor = #colorLiteral(red: 1, green: 0.5025838017, blue: 0, alpha: 0.5)
         nextButton.titleLabel?.font = Appearance.buttomsFont
-        nextButton.isHidden = true
         nextButton.layer.cornerRadius = 15
         nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
         //constraints@nextButton
@@ -178,6 +177,10 @@ class SignInViewController: UIViewController, SignInViewProtocol {
     //MARK: Button methods
     func animateButton(button: UIButton) {
         //button animation
+        if button == self.nextButton {
+            nextButton.backgroundColor = .orange
+        }
+        
         UIView.animate(withDuration: 0.2, animations: { () -> Void in
             button.transform = .init(scaleX: 1.25, y: 1.25)
         }) { (finished: Bool) -> Void in
@@ -186,11 +189,6 @@ class SignInViewController: UIViewController, SignInViewProtocol {
                 button.transform = .identity
             })
         }
-    }
-    func setNextButtonToView() {
-        //button animation
-        nextButton.isHidden = false
-        animateButton(button: self.nextButton)
     }
     @objc func nextButtonTapped() {
         animateButton(button: self.nextButton)
@@ -265,14 +263,14 @@ class SignInViewController: UIViewController, SignInViewProtocol {
 extension SignInViewController: UITextFieldDelegate {
     //textFieldShouldBeginEditing
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        setNextButtonToView()
+        animateButton(button: self.nextButton)
         return true
     }
     //textFieldDidEndEditing
     func textFieldDidEndEditing(_ textField: UITextField) {
         preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: currentViewHeight)
         if self.emailTextField.text?.count == 0 || self.emailTextField.text == nil {
-            self.nextButton.isHidden = true
+            nextButton.backgroundColor = #colorLiteral(red: 1, green: 0.5025838017, blue: 0, alpha: 0.5)
         }
     }
     //textFieldShouldReturn

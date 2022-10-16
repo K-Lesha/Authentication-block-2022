@@ -81,8 +81,8 @@ class StartHereViewController: UIViewController, StartHereViewProtocol {
         self.signInButton.translatesAutoresizingMaskIntoConstraints = false
         self.signInButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -50).isActive = true
         self.signInButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        self.signInButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        self.signInButton.widthAnchor.constraint(equalToConstant: 130).isActive = true
+        self.signInButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        self.signInButton.widthAnchor.constraint(equalToConstant: 140).isActive = true
         
         // setup@textLabel
         self.textLabel = UILabel()
