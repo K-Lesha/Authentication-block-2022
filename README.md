@@ -78,7 +78,7 @@ process of logging | deleting an account
 <img width="389" alt="Firebase database delete user feedback" src="https://user-images.githubusercontent.com/106081917/196029011-8d70d47b-3526-4331-9ca7-5e18dfdeccae.png">
 
 
-
+# That is all. Thanks for watching!
 
 
 
