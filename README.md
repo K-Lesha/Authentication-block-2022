@@ -12,9 +12,9 @@ Here is it.
 | File | Description |
 |:----|:----|
 | 1. **Router** | Asks AssemblyModuleBuilder to create Modules (Presenter + View), shows Modules on the screen.  |
-| 2. **AssemblyModuleBuilder** | Creates Modules |
-| 3. **NetworkService** | Contatins all the network methods: check inthernet, download image |
-| 4. **FirebaseService** | Contains all the Firebase methods: try to log in, try to sign up, log out, delete current user account |
+| 2. **Assembly Module Builder** | Creates Modules |
+| 3. **Network Service** | Contatins all the network methods: check inthernet, download image |
+| 4. **Firebase Service** | Contains all the Firebase methods: try to log in, try to sign up, log out, delete current user account |
 | 5. and 6. **Presenters** | 1._Contains all the methods that connect the view and the network layer, the view and the router.  2. Presenters can manage views.  3._Presenters are independet from each other. |
 | **Views** | 1. Contains only UI methods. 2. View are independet from each other. |
 
