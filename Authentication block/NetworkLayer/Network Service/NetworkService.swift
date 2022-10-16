@@ -85,7 +85,7 @@ class NetworkService: NetworkServiceProtocol {
     }
     //MARK: Firebase calls
     func tryToRegister(userName: String, email: String, password: String, completion: @escaping (Result<String, FireBaseError>) -> ()) {
-        firebaseServise.tryToSignIn(userName: userName, email: email, password: password, completion: completion)
+        firebaseServise.tryToRegister(userName: userName, email: email, password: password, completion: completion)
     }
     func tryToLogIn(email: String, password: String, completion: @escaping (Result<String, FireBaseError>) -> ()) {
         firebaseServise.tryToLogIn(email: email, password: password, completion: completion)

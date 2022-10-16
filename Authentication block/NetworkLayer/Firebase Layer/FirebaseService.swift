@@ -12,7 +12,7 @@ import FirebaseDatabase
 
 
 protocol FirebaseServiceProtocol: AnyObject {
-    func tryToSignIn(userName: String, email: String, password: String, completion: @escaping (Result<String, FireBaseError>) -> ())
+    func tryToRegister(userName: String, email: String, password: String, completion: @escaping (Result<String, FireBaseError>) -> ())
     func tryToLogIn(email: String, password: String, completion: @escaping (Result<String, FireBaseError>) -> ())
     func deleteCurrentAccount(completion: @escaping (Result<Bool, FireBaseError>) -> ())
     func logOut()
@@ -30,7 +30,7 @@ class FirebaseService: FirebaseServiceProtocol {
     
     let database = Database.database().reference().child("users")
     
-    func tryToSignIn(userName: String, email: String, password: String, completion: @escaping (Result<String, FireBaseError>) -> ()) {
+    func tryToRegister(userName: String, email: String, password: String, completion: @escaping (Result<String, FireBaseError>) -> ()) {
         Auth.auth().createUser(withEmail: email, password: password) { result, error in
             print("FirebaseService: tryToSignIn", Thread.current)
             if error != nil {

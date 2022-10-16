@@ -11,9 +11,9 @@
 		8A0625E228F8121700D52BB2 /* BottomSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 8A0625E128F8121700D52BB2 /* BottomSheet */; };
 		8A0625E428F812A200D52BB2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8A0625E328F812A200D52BB2 /* GoogleService-Info.plist */; };
 		8A0625E628F81C4400D52BB2 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0625E528F81C4400D52BB2 /* FirebaseService.swift */; };
-		8A0625E828F8222800D52BB2 /* PasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0625E728F8222800D52BB2 /* PasswordViewController.swift */; };
+		8A0625E828F8222800D52BB2 /* PasswordModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0625E728F8222800D52BB2 /* PasswordModalViewController.swift */; };
 		8A0625EA28F82D5700D52BB2 /* Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0625E928F82D5700D52BB2 /* Appearance.swift */; };
-		8A0625EC28F837DE00D52BB2 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0625EB28F837DE00D52BB2 /* RegistrationViewController.swift */; };
+		8A0625EC28F837DE00D52BB2 /* RegistrationModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0625EB28F837DE00D52BB2 /* RegistrationModalViewController.swift */; };
 		8A44E7A728F857F40072AFF5 /* LoggedInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A44E7A628F857F40072AFF5 /* LoggedInViewController.swift */; };
 		8A44E7A928F858030072AFF5 /* LoggedInPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A44E7A828F858030072AFF5 /* LoggedInPresenter.swift */; };
 		8A70F95728F96A4D006D23E1 /* LD Grotesk Condensed Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8A70F95628F96A4D006D23E1 /* LD Grotesk Condensed Bold.ttf */; };
@@ -30,7 +30,7 @@
 		8A850FC528F574450046088A /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A850FC428F574450046088A /* Router.swift */; };
 		8A850FCB28F5748C0046088A /* StartHerePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A850FCA28F5748C0046088A /* StartHerePresenter.swift */; };
 		8A850FD028F575650046088A /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A850FCF28F575650046088A /* NetworkService.swift */; };
-		8A850FE228F5FDFC0046088A /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A850FE128F5FDFC0046088A /* SignInViewController.swift */; };
+		8A850FE228F5FDFC0046088A /* SignInModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A850FE128F5FDFC0046088A /* SignInModalViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,9 +39,9 @@
 		37B83C0634C2D93206E7E8B1 /* Pods-Authentication block.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Authentication block.debug.xcconfig"; path = "Target Support Files/Pods-Authentication block/Pods-Authentication block.debug.xcconfig"; sourceTree = "<group>"; };
 		8A0625E328F812A200D52BB2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8A0625E528F81C4400D52BB2 /* FirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
-		8A0625E728F8222800D52BB2 /* PasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordViewController.swift; sourceTree = "<group>"; };
+		8A0625E728F8222800D52BB2 /* PasswordModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordModalViewController.swift; sourceTree = "<group>"; };
 		8A0625E928F82D5700D52BB2 /* Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appearance.swift; sourceTree = "<group>"; };
-		8A0625EB28F837DE00D52BB2 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
+		8A0625EB28F837DE00D52BB2 /* RegistrationModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationModalViewController.swift; sourceTree = "<group>"; };
 		8A44E7A628F857F40072AFF5 /* LoggedInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInViewController.swift; sourceTree = "<group>"; };
 		8A44E7A828F858030072AFF5 /* LoggedInPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInPresenter.swift; sourceTree = "<group>"; };
 		8A70F95628F96A4D006D23E1 /* LD Grotesk Condensed Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LD Grotesk Condensed Bold.ttf"; sourceTree = "<group>"; };
@@ -60,7 +60,7 @@
 		8A850FC428F574450046088A /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		8A850FCA28F5748C0046088A /* StartHerePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartHerePresenter.swift; sourceTree = "<group>"; };
 		8A850FCF28F575650046088A /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
-		8A850FE128F5FDFC0046088A /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		8A850FE128F5FDFC0046088A /* SignInModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInModalViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,9 +171,9 @@
 			isa = PBXGroup;
 			children = (
 				8A850FAF28F573870046088A /* StartHereViewController.swift */,
-				8A850FE128F5FDFC0046088A /* SignInViewController.swift */,
-				8A0625E728F8222800D52BB2 /* PasswordViewController.swift */,
-				8A0625EB28F837DE00D52BB2 /* RegistrationViewController.swift */,
+				8A850FE128F5FDFC0046088A /* SignInModalViewController.swift */,
+				8A0625E728F8222800D52BB2 /* PasswordModalViewController.swift */,
+				8A0625EB28F837DE00D52BB2 /* RegistrationModalViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -367,12 +367,12 @@
 				8A0625E628F81C4400D52BB2 /* FirebaseService.swift in Sources */,
 				8A44E7A928F858030072AFF5 /* LoggedInPresenter.swift in Sources */,
 				8A850FAC28F573870046088A /* AppDelegate.swift in Sources */,
-				8A0625E828F8222800D52BB2 /* PasswordViewController.swift in Sources */,
-				8A0625EC28F837DE00D52BB2 /* RegistrationViewController.swift in Sources */,
+				8A0625E828F8222800D52BB2 /* PasswordModalViewController.swift in Sources */,
+				8A0625EC28F837DE00D52BB2 /* RegistrationModalViewController.swift in Sources */,
 				8A44E7A728F857F40072AFF5 /* LoggedInViewController.swift in Sources */,
 				8A850FC528F574450046088A /* Router.swift in Sources */,
 				8A850FCB28F5748C0046088A /* StartHerePresenter.swift in Sources */,
-				8A850FE228F5FDFC0046088A /* SignInViewController.swift in Sources */,
+				8A850FE228F5FDFC0046088A /* SignInModalViewController.swift in Sources */,
 				8A0625EA28F82D5700D52BB2 /* Appearance.swift in Sources */,
 				8A850FD028F575650046088A /* NetworkService.swift in Sources */,
 				8A850FAE28F573870046088A /* SceneDelegate.swift in Sources */,
