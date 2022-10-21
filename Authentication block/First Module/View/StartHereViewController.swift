@@ -51,7 +51,7 @@ class StartHereViewController: UIViewController, StartHereViewProtocol {
         // setup@backgroundImage
         self.backgroundImageView = UIImageView(frame: self.view.frame)
         let imageWidth = self.view.frame.width, imageHeight = self.view.frame.height
-        // Download image and handle result
+        // Download image and handle the result
         DispatchQueue.global().async {
             self.presenter.setBackgroundImage(width: imageWidth, height: imageHeight) { result in
                 switch result {

@@ -19,10 +19,12 @@ protocol NetworkServiceProtocol: AnyObject {
     // Firebase calls
     func tryToRegister(userName: String, email: String, password: String, completion: @escaping (Result<String, FireBaseError>) -> ())
     func tryToLogIn(email: String, password: String, completion: @escaping (Result<String, FireBaseError>) -> ())
-    func deleteCurrentAccount(completion: @escaping (Result<Bool, FireBaseError>) -> ())
+    func tryToLoginWithFacebook(viewController: SignInViewProtocol, completion: @escaping (Result<String, FireBaseError>) -> ())
+    func checkUserLoginnedWithFacebook() -> Bool
     func logOut()
     func findNameOfUser(completion: @escaping (String) -> ())
-    func reauthenticateAndDeleteUser(password: String)
+    func reauthenticateAndDeleteUser(password: String, completion: @escaping (Result<Bool, FireBaseError>) -> ())
+    func restorePassword(email: String, completion: @escaping (Result<Bool, FireBaseError>) -> ())
 }
 // MARK: NetworkService
 //Erorrs
@@ -90,8 +92,8 @@ class NetworkService: NetworkServiceProtocol {
     func tryToLogIn(email: String, password: String, completion: @escaping (Result<String, FireBaseError>) -> ()) {
         firebaseServise.tryToLogIn(email: email, password: password, completion: completion)
     }
-    func deleteCurrentAccount(completion: @escaping (Result<Bool, FireBaseError>) -> ()) {
-        firebaseServise.deleteCurrentAccount(completion: completion)
+    func tryToLoginWithFacebook(viewController: SignInViewProtocol, completion: @escaping (Result<String, FireBaseError>) -> ()) {
+        firebaseServise.tryToLoginWithFacebook(viewController: viewController, completion: completion)
     }
     func logOut() {
         firebaseServise.logOut()
@@ -99,8 +101,14 @@ class NetworkService: NetworkServiceProtocol {
     func findNameOfUser(completion: @escaping (String) -> ()) {
         firebaseServise.findNameOfUser(completion: completion)
     }
-    func reauthenticateAndDeleteUser(password: String) {
-        firebaseServise.reauthenticateAndDeleteUser(password: password)
+    func reauthenticateAndDeleteUser(password: String, completion: @escaping (Result<Bool, FireBaseError>) -> ()) {
+        firebaseServise.reauthenticateAndDeleteUser(password: password, completion: completion)
+    }
+    func restorePassword(email: String, completion: @escaping (Result<Bool, FireBaseError>) -> ()) {
+        firebaseServise.restorePassword(email: email, completion: completion)
+    }
+    func checkUserLoginnedWithFacebook() -> Bool {
+        return firebaseServise.checkUserLoginnedWithFacebook()
     }
 }
 

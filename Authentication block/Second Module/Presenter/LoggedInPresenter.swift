@@ -18,9 +18,9 @@ protocol LoggedInPresenterProtocol: AnyObject {
     var userName: String! {get set}
     var userUID: String! {get set}
     // METHODS
-    func deleteCurrentAccount(completion: @escaping (Result<Bool, FireBaseError>) -> ())
     func logOut()
-    func reauthenticateAndDeleteUser(password: String)
+    func reauthenticateAndDeleteUser(password: String, completion: @escaping (Result<Bool, FireBaseError>) -> ())
+    func checkUserLoginnedWithFacebook() -> Bool
 }
 
 //MARK: Presenter
@@ -48,13 +48,14 @@ class LoggedInPresenter: LoggedInPresenterProtocol {
     var userUID: String!
     
     //MARK: METHODS
-    func deleteCurrentAccount(completion: @escaping (Result<Bool, FireBaseError>) -> ()) {
-        networkService.deleteCurrentAccount(completion: completion)
-    }
     func logOut() {
         networkService.logOut()
     }
-    func reauthenticateAndDeleteUser(password: String) {
-        networkService.reauthenticateAndDeleteUser(password: password)
+    func reauthenticateAndDeleteUser(password: String, completion: @escaping (Result<Bool, FireBaseError>) -> ()) {
+        networkService.reauthenticateAndDeleteUser(password: password, completion: completion)
     }
+    func checkUserLoginnedWithFacebook() -> Bool {
+        return networkService.checkUserLoginnedWithFacebook()
+    }
+
 }

@@ -22,7 +22,9 @@ protocol StartHerePresenterProtocol: AnyObject {
     func setBackgroundImage(width: CGFloat, height: CGFloat, completion: @escaping (Result<Data, NetworkError>) -> Void)
     func tryToRegister(completion: @escaping (Result<String, FireBaseError>) -> ())
     func tryToLogin(completion: @escaping (Result<String, FireBaseError>) -> ())
+    func tryToLoginWithFacebook(viewController: SignInViewProtocol, completion: @escaping (Result<String, FireBaseError>) -> ())
     func checkInternetConnection() -> Bool
+    func restorePassword(completion: @escaping (Result<Bool, FireBaseError>) -> ())
 }
 
 //MARK: Presenter
@@ -65,7 +67,14 @@ class StartHerePresenter: StartHerePresenterProtocol {
     func tryToLogin(completion: @escaping (Result<String, FireBaseError>) -> ()) {
         networkService.tryToLogIn(email: self.email, password: self.password, completion: completion)
     }
+    func tryToLoginWithFacebook(viewController: SignInViewProtocol, completion: @escaping (Result<String, FireBaseError>) -> ()) {
+        networkService.tryToLoginWithFacebook(viewController: viewController, completion: completion)
+    }
+
     func checkInternetConnection() -> Bool {
         return networkService.checkInternetConnection()
+    }
+    func restorePassword(completion: @escaping (Result<Bool, FireBaseError>) -> ()) {
+        networkService.restorePassword(email: self.email, completion: completion)
     }
 }

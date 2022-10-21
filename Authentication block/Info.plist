@@ -2,6 +2,30 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb512792930408832</string>
+			</array>
+		</dict>
+	</array>
+	<key>FacebookAutoLogAppEventsEnabled</key>
+	<false/>
+	<key>FacebookAdvertiserIDCollectionEnabled</key>
+	<false/>
+	<key>FacebookAppID</key>
+	<string>512792930408832</string>
+	<key>FacebookClientToken</key>
+	<string>706bc49d92982a5e949e97a7180b3a0f</string>
+	<key>FacebookDisplayName</key>
+	<string>firebaseTestApp</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-share-api</string>
+	</array>
 	<key>UIAppFonts</key>
 	<array>
 		<string>LD Grotesk Condensed Bold.ttf</string>

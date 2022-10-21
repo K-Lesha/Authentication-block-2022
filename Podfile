@@ -7,6 +7,7 @@ target 'Authentication block' do
   pod 'FirebaseCore'
   pod 'FirebaseAuth'
   pod 'FirebaseDatabase'
+  pod 'FBSDKLoginKit'
   # Pods for Authentication block
 
 end

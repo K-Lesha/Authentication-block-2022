@@ -25,7 +25,7 @@ class LoggedInViewController: UIViewController, LoggedInViewControllerProtocol {
     var presenter: LoggedInPresenterProtocol!
     
     //MARK: OUTLETS
-    var deleteAccountBarButton: UIBarButtonItem!
+    var deleteAccountBarButton: UIBarButtonItem? = nil
     var logoutButton: UIBarButtonItem!
     var userNameLabel: UILabel!
     var additionalInfoLabel: UILabel!
@@ -42,14 +42,16 @@ class LoggedInViewController: UIViewController, LoggedInViewControllerProtocol {
     //MARK: View methods
     func setupViews() {
         //setup@deleteAccountButton
-        deleteAccountBarButton = UIBarButtonItem(title: "Delete account", style: .plain, target: self, action: #selector(deleteAccountButtonPushed))
-        deleteAccountBarButton.setTitleTextAttributes([
-            NSAttributedString.Key.font: Appearance.buttomsFont,
-            NSAttributedString.Key.foregroundColor: UIColor.white],
-            for: .normal)
-
-        self.navigationItem.leftBarButtonItem = deleteAccountBarButton
-        
+        if presenter.checkUserLoginnedWithFacebook() {
+            deleteAccountBarButton = nil
+        } else {
+            deleteAccountBarButton = UIBarButtonItem(title: "Delete account", style: .plain, target: self, action: #selector(deleteAccountButtonPushed))
+            deleteAccountBarButton?.setTitleTextAttributes([
+                NSAttributedString.Key.font: Appearance.buttomsFont,
+                NSAttributedString.Key.foregroundColor: UIColor.white],
+                for: .normal)
+            self.navigationItem.leftBarButtonItem = deleteAccountBarButton
+        }
         //setup@logoutButton
         logoutButton = UIBarButtonItem(title: "Log out", style: .plain, target: self, action: #selector(logOutButtonPushed))
         self.navigationItem.rightBarButtonItem = logoutButton
@@ -75,7 +77,7 @@ class LoggedInViewController: UIViewController, LoggedInViewControllerProtocol {
         self.userNameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         self.userNameLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         self.userNameLabel.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -50).isActive = true
-        self.userNameLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        self.userNameLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
     func setNewValueForUserNamelabel(newUserName: String) {
         UIView.animate(withDuration: 0.2, animations: { () -> Void in
@@ -99,6 +101,18 @@ class LoggedInViewController: UIViewController, LoggedInViewControllerProtocol {
         activityIndicator?.color = .white
         activityIndicator?.startAnimating()
     }
+    func removeDeletingProgressFromSuperView() {
+        self.deletingInProgressView?.removeFromSuperview()
+        self.activityIndicator?.removeFromSuperview()
+        self.deletingInProgressView = nil
+        self.activityIndicator = nil
+    }
+    func showAlertWrongPass() {
+        let alert = UIAlertController(title: "Your password is wrong", message: "please, try again", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(okAction)
+        self.present(alert, animated: true)
+    }
 
     //MARK: Button methods
     @objc func logOutButtonPushed() {
@@ -107,24 +121,35 @@ class LoggedInViewController: UIViewController, LoggedInViewControllerProtocol {
     @objc func deleteAccountButtonPushed() {
         //view reaction
         deletingInProgress()
+        
         let alert = UIAlertController(title: "Enter your password to confirm", message: "", preferredStyle: .alert)
         alert.addTextField()
-        let okAction = UIAlertAction(title: "OK", style: .default) { action in
+        alert.textFields?.first?.isSecureTextEntry = true
+        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+            print("alert: ok pushed")
             let password = alert.textFields?.first?.text ?? ""
             self.deleteUserWithPassword(password: password)
         }
         let canselAction = UIAlertAction(title: "Cansel", style: .cancel) { canselAction in
-            self.deletingInProgressView?.removeFromSuperview()
-            self.activityIndicator?.removeFromSuperview()
-            self.deletingInProgressView = nil
-            self.activityIndicator = nil
+            self.removeDeletingProgressFromSuperView()
         }
         alert.addAction(canselAction)
         alert.addAction(okAction)
         self.present(alert, animated: true)
     }
     func deleteUserWithPassword(password: String) {
-        presenter.reauthenticateAndDeleteUser(password: password)
+        print("view: ok pushed, calling presenter.reauthenticateAndDeleteUser")
+        presenter.reauthenticateAndDeleteUser(password: password) { deletionResult in
+            switch deletionResult {
+            case .success(_):
+                print("view: deletion succesfull")
+                self.removeDeletingProgressFromSuperView()
+            case .failure(let error):
+                print("view: deletion failed ", error.localizedDescription)
+                self.removeDeletingProgressFromSuperView()
+                self.showAlertWrongPass()
+            }
+        }
     }
     //MARK: Deinit
     deinit {
