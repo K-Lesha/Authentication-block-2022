@@ -6,8 +6,7 @@ Here it is.
 
 ## Project flowchart
 
-![Flowchart](https://user-images.githubusercontent.com/106081917/196029086-e3e1a7b9-486e-4cd0-bf7e-42c3da611a2a.jpg)
-
+![Flowchart-6](https://user-images.githubusercontent.com/106081917/196931166-e50d245d-9bc3-4d5b-ba62-458890cd4177.jpg)
 
 | File | Description |
 |:----|:----|
