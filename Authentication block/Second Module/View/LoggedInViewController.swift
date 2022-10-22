@@ -9,28 +9,24 @@ import UIKit
 
 // MARK: Protocol
 protocol LoggedInViewControllerProtocol: AnyObject {
-    //MVP protocol
+    //VIPER protocol
     var presenter: LoggedInPresenterProtocol! {get set}
-    //View protocol
-    var userNameLabel: UILabel! {get set}
+    //Methods
     func setNewValueForUserNamelabel(newUserName: String)
-    //NAVIGATION
-    func logOutButtonPushed()
-    func deleteAccountButtonPushed()
 }
 //MARK: View
 class LoggedInViewController: UIViewController, LoggedInViewControllerProtocol {
     
-    //MARK: MVP protocol
-    var presenter: LoggedInPresenterProtocol!
+    //MARK: VIPER protocol
+    internal var presenter: LoggedInPresenterProtocol!
     
     //MARK: OUTLETS
-    var deleteAccountBarButton: UIBarButtonItem? = nil
-    var logoutButton: UIBarButtonItem!
-    var userNameLabel: UILabel!
-    var additionalInfoLabel: UILabel!
-    var deletingInProgressView: UIView? = nil
-    var activityIndicator: UIActivityIndicatorView? = nil
+    private var deleteAccountBarButton: UIBarButtonItem? = nil
+    private var logoutButton: UIBarButtonItem!
+    private var userNameLabel: UILabel!
+    private var additionalInfoLabel: UILabel!
+    private var deletingInProgressView: UIView? = nil
+    private var activityIndicator: UIActivityIndicatorView? = nil
     
     //MARK: viewDidLoad
     override func viewDidLoad() {
@@ -40,7 +36,7 @@ class LoggedInViewController: UIViewController, LoggedInViewControllerProtocol {
     }
     //MARK: METHODS
     //MARK: View methods
-    func setupViews() {
+    private func setupViews() {
         //setup@deleteAccountButton
         if presenter.checkUserLoginnedWithFacebook() {
             deleteAccountBarButton = nil
@@ -79,7 +75,7 @@ class LoggedInViewController: UIViewController, LoggedInViewControllerProtocol {
         self.userNameLabel.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -50).isActive = true
         self.userNameLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
-    func setNewValueForUserNamelabel(newUserName: String) {
+    public func setNewValueForUserNamelabel(newUserName: String) {
         UIView.animate(withDuration: 0.2, animations: { () -> Void in
             self.userNameLabel.transform = .init(scaleX: 1.25, y: 1.25)
         }) { (finished: Bool) -> Void in
@@ -89,7 +85,7 @@ class LoggedInViewController: UIViewController, LoggedInViewControllerProtocol {
             })
         }
     }
-    func deletingInProgress() {
+    private func deletingInProgress() {
         deletingInProgressView = UIView()
         deletingInProgressView?.frame = view.frame
         deletingInProgressView?.backgroundColor = .gray
@@ -101,13 +97,13 @@ class LoggedInViewController: UIViewController, LoggedInViewControllerProtocol {
         activityIndicator?.color = .white
         activityIndicator?.startAnimating()
     }
-    func removeDeletingProgressFromSuperView() {
+    private func removeDeletingProgressFromSuperView() {
         self.deletingInProgressView?.removeFromSuperview()
         self.activityIndicator?.removeFromSuperview()
         self.deletingInProgressView = nil
         self.activityIndicator = nil
     }
-    func showAlertWrongPass() {
+    private func showAlertWrongPass() {
         let alert = UIAlertController(title: "Your password is wrong", message: "please, try again", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default)
         alert.addAction(okAction)
@@ -115,10 +111,10 @@ class LoggedInViewController: UIViewController, LoggedInViewControllerProtocol {
     }
 
     //MARK: Button methods
-    @objc func logOutButtonPushed() {
+    @objc private func logOutButtonPushed() {
         presenter.logOut()
     }
-    @objc func deleteAccountButtonPushed() {
+    @objc private func deleteAccountButtonPushed() {
         //view reaction
         deletingInProgress()
         
@@ -137,7 +133,7 @@ class LoggedInViewController: UIViewController, LoggedInViewControllerProtocol {
         alert.addAction(okAction)
         self.present(alert, animated: true)
     }
-    func deleteUserWithPassword(password: String) {
+    private func deleteUserWithPassword(password: String) {
         print("view: ok pushed, calling presenter.reauthenticateAndDeleteUser")
         presenter.reauthenticateAndDeleteUser(password: password) { deletionResult in
             switch deletionResult {

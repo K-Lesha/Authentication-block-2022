@@ -22,15 +22,17 @@
 		8A70F95F28F972E7006D23E1 /* AuthenticationSemaphore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A70F95E28F972E7006D23E1 /* AuthenticationSemaphore.swift */; };
 		8A850FAC28F573870046088A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A850FAB28F573870046088A /* AppDelegate.swift */; };
 		8A850FAE28F573870046088A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A850FAD28F573870046088A /* SceneDelegate.swift */; };
-		8A850FB028F573870046088A /* StartHereViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A850FAF28F573870046088A /* StartHereViewController.swift */; };
+		8A850FB028F573870046088A /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A850FAF28F573870046088A /* AuthViewController.swift */; };
 		8A850FB328F573870046088A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A850FB128F573870046088A /* Main.storyboard */; };
 		8A850FB528F5738A0046088A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A850FB428F5738A0046088A /* Assets.xcassets */; };
 		8A850FB828F5738A0046088A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A850FB628F5738A0046088A /* LaunchScreen.storyboard */; };
 		8A850FC328F5743B0046088A /* AssemblyModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A850FC228F5743B0046088A /* AssemblyModuleBuilder.swift */; };
 		8A850FC528F574450046088A /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A850FC428F574450046088A /* Router.swift */; };
-		8A850FCB28F5748C0046088A /* StartHerePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A850FCA28F5748C0046088A /* StartHerePresenter.swift */; };
+		8A850FCB28F5748C0046088A /* AuthPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A850FCA28F5748C0046088A /* AuthPresenter.swift */; };
 		8A850FD028F575650046088A /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A850FCF28F575650046088A /* NetworkService.swift */; };
 		8A850FE228F5FDFC0046088A /* SignInModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A850FE128F5FDFC0046088A /* SignInModalView.swift */; };
+		8AF83E692904A56800614257 /* AuthInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF83E682904A56800614257 /* AuthInteractor.swift */; };
+		8AF83E6C2904A5D300614257 /* LoggedInInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF83E6B2904A5D300614257 /* LoggedInInteractor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,17 +53,19 @@
 		8A850FA828F573870046088A /* Authentication block.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Authentication block.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A850FAB28F573870046088A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8A850FAD28F573870046088A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		8A850FAF28F573870046088A /* StartHereViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartHereViewController.swift; sourceTree = "<group>"; };
+		8A850FAF28F573870046088A /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		8A850FB228F573870046088A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8A850FB428F5738A0046088A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8A850FB728F5738A0046088A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8A850FB928F5738A0046088A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8A850FC228F5743B0046088A /* AssemblyModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssemblyModuleBuilder.swift; sourceTree = "<group>"; };
 		8A850FC428F574450046088A /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
-		8A850FCA28F5748C0046088A /* StartHerePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartHerePresenter.swift; sourceTree = "<group>"; };
+		8A850FCA28F5748C0046088A /* AuthPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthPresenter.swift; sourceTree = "<group>"; };
 		8A850FCF28F575650046088A /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		8A850FE128F5FDFC0046088A /* SignInModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInModalView.swift; sourceTree = "<group>"; };
 		8AD121772902A38300E93421 /* Authentication block.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Authentication block.entitlements"; sourceTree = "<group>"; };
+		8AF83E682904A56800614257 /* AuthInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthInteractor.swift; sourceTree = "<group>"; };
+		8AF83E6B2904A5D300614257 /* LoggedInInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInInteractor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,15 +88,6 @@
 				8A0625E328F812A200D52BB2 /* GoogleService-Info.plist */,
 			);
 			path = "Firebase Layer";
-			sourceTree = "<group>";
-		};
-		8A0625A928F802C300D52BB2 /* Network Service */ = {
-			isa = PBXGroup;
-			children = (
-				8A850FCF28F575650046088A /* NetworkService.swift */,
-				8A70F95E28F972E7006D23E1 /* AuthenticationSemaphore.swift */,
-			);
-			path = "Network Service";
 			sourceTree = "<group>";
 		};
 		8A70F94428F8C504006D23E1 /* Appearance */ = {
@@ -131,7 +126,8 @@
 				8A850FBF28F573BE0046088A /* Application */,
 				8A850FC628F5744B0046088A /* First Module */,
 				8A850FD328F5BBE00046088A /* Second Module */,
-				8A850FCE28F575530046088A /* NetworkLayer */,
+				8A850FCE28F575530046088A /* Network Service */,
+				8A0625A628F802A700D52BB2 /* Firebase Layer */,
 				8A850FC028F573C80046088A /* Supporting files */,
 				8A850FB928F5738A0046088A /* Info.plist */,
 			);
@@ -143,8 +139,9 @@
 			children = (
 				8A850FAB28F573870046088A /* AppDelegate.swift */,
 				8A850FAD28F573870046088A /* SceneDelegate.swift */,
-				8A850FC228F5743B0046088A /* AssemblyModuleBuilder.swift */,
 				8A850FC428F574450046088A /* Router.swift */,
+				8A850FC228F5743B0046088A /* AssemblyModuleBuilder.swift */,
+				8A70F95E28F972E7006D23E1 /* AuthenticationSemaphore.swift */,
 				8A70F94428F8C504006D23E1 /* Appearance */,
 			);
 			path = Application;
@@ -163,8 +160,9 @@
 		8A850FC628F5744B0046088A /* First Module */ = {
 			isa = PBXGroup;
 			children = (
-				8A850FC728F5745B0046088A /* View */,
 				8A850FC828F574650046088A /* Presenter */,
+				8AF83E672904A55500614257 /* Interactor */,
+				8A850FC728F5745B0046088A /* View */,
 			);
 			path = "First Module";
 			sourceTree = "<group>";
@@ -172,7 +170,7 @@
 		8A850FC728F5745B0046088A /* View */ = {
 			isa = PBXGroup;
 			children = (
-				8A850FAF28F573870046088A /* StartHereViewController.swift */,
+				8A850FAF28F573870046088A /* AuthViewController.swift */,
 				8A850FE128F5FDFC0046088A /* SignInModalView.swift */,
 				8A0625E728F8222800D52BB2 /* PasswordModalView.swift */,
 				8A0625EB28F837DE00D52BB2 /* RegistrationModalView.swift */,
@@ -183,23 +181,23 @@
 		8A850FC828F574650046088A /* Presenter */ = {
 			isa = PBXGroup;
 			children = (
-				8A850FCA28F5748C0046088A /* StartHerePresenter.swift */,
+				8A850FCA28F5748C0046088A /* AuthPresenter.swift */,
 			);
 			path = Presenter;
 			sourceTree = "<group>";
 		};
-		8A850FCE28F575530046088A /* NetworkLayer */ = {
+		8A850FCE28F575530046088A /* Network Service */ = {
 			isa = PBXGroup;
 			children = (
-				8A0625A928F802C300D52BB2 /* Network Service */,
-				8A0625A628F802A700D52BB2 /* Firebase Layer */,
+				8A850FCF28F575650046088A /* NetworkService.swift */,
 			);
-			path = NetworkLayer;
+			path = "Network Service";
 			sourceTree = "<group>";
 		};
 		8A850FD328F5BBE00046088A /* Second Module */ = {
 			isa = PBXGroup;
 			children = (
+				8AF83E6A2904A5C000614257 /* Intercator */,
 				8A850FD528F5BC0F0046088A /* Presenter */,
 				8A850FD428F5BC080046088A /* View */,
 			);
@@ -220,6 +218,22 @@
 				8A44E7A828F858030072AFF5 /* LoggedInPresenter.swift */,
 			);
 			path = Presenter;
+			sourceTree = "<group>";
+		};
+		8AF83E672904A55500614257 /* Interactor */ = {
+			isa = PBXGroup;
+			children = (
+				8AF83E682904A56800614257 /* AuthInteractor.swift */,
+			);
+			path = Interactor;
+			sourceTree = "<group>";
+		};
+		8AF83E6A2904A5C000614257 /* Intercator */ = {
+			isa = PBXGroup;
+			children = (
+				8AF83E6B2904A5D300614257 /* LoggedInInteractor.swift */,
+			);
+			path = Intercator;
 			sourceTree = "<group>";
 		};
 		D7A946F156831867FFC56067 /* Frameworks */ = {
@@ -364,18 +378,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8A850FB028F573870046088A /* StartHereViewController.swift in Sources */,
+				8A850FB028F573870046088A /* AuthViewController.swift in Sources */,
 				8A70F95F28F972E7006D23E1 /* AuthenticationSemaphore.swift in Sources */,
 				8A0625E628F81C4400D52BB2 /* FirebaseService.swift in Sources */,
 				8A44E7A928F858030072AFF5 /* LoggedInPresenter.swift in Sources */,
 				8A850FAC28F573870046088A /* AppDelegate.swift in Sources */,
 				8A0625E828F8222800D52BB2 /* PasswordModalView.swift in Sources */,
+				8AF83E6C2904A5D300614257 /* LoggedInInteractor.swift in Sources */,
 				8A0625EC28F837DE00D52BB2 /* RegistrationModalView.swift in Sources */,
 				8A44E7A728F857F40072AFF5 /* LoggedInViewController.swift in Sources */,
 				8A850FC528F574450046088A /* Router.swift in Sources */,
-				8A850FCB28F5748C0046088A /* StartHerePresenter.swift in Sources */,
+				8A850FCB28F5748C0046088A /* AuthPresenter.swift in Sources */,
 				8A850FE228F5FDFC0046088A /* SignInModalView.swift in Sources */,
 				8A0625EA28F82D5700D52BB2 /* Appearance.swift in Sources */,
+				8AF83E692904A56800614257 /* AuthInteractor.swift in Sources */,
 				8A850FD028F575650046088A /* NetworkService.swift in Sources */,
 				8A850FAE28F573870046088A /* SceneDelegate.swift in Sources */,
 				8A850FC328F5743B0046088A /* AssemblyModuleBuilder.swift in Sources */,

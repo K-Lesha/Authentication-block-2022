@@ -12,6 +12,7 @@ import FirebaseDatabase
 import FBSDKLoginKit
 
 protocol FirebaseServiceProtocol: AnyObject {
+    //METHODS
     func tryToRegister(userName: String, email: String, password: String, completion: @escaping (Result<String, FireBaseError>) -> ())
     func tryToLogIn(email: String, password: String, completion: @escaping (Result<String, FireBaseError>) -> ())
     func logOut()
@@ -22,7 +23,7 @@ protocol FirebaseServiceProtocol: AnyObject {
     func tryToLoginWithFacebook(viewController: SignInViewProtocol, completion: @escaping (Result<String, FireBaseError>) -> ())
     func checkUserLoginnedWithFacebook() -> Bool
 }
-
+//MARK: Firebase errors
 enum FireBaseError: String, Error {
     case loginError
     case wrongEmail
@@ -34,12 +35,14 @@ enum FireBaseError: String, Error {
     case facebookLoginCanselled
     case firebaseWithFacebookSignInError
 }
+//MARK: Firebase Service
 class FirebaseService: FirebaseServiceProtocol {
+    //MARK: Firebase properties
+    private let database = Database.database().reference().child("users")
+    private let firebase = Auth.auth()
     
-    let database = Database.database().reference().child("users")
-    let firebase = Auth.auth()
-    
-    func tryToRegister(userName: String, email: String, password: String, completion: @escaping (Result<String, FireBaseError>) -> ()) {
+    //MARK: Methods
+    public func tryToRegister(userName: String, email: String, password: String, completion: @escaping (Result<String, FireBaseError>) -> ()) {
         firebase.createUser(withEmail: email, password: password) { result, error in
             print("FirebaseService: tryToSignIn", Thread.current)
             if error != nil {
@@ -55,8 +58,7 @@ class FirebaseService: FirebaseServiceProtocol {
         }
         // in succesfull case SceneDelegate listener will change the state of app
     }
-    
-    func tryToLogIn(email: String, password: String, completion: @escaping (Result<String, FireBaseError>) -> ()) {
+    public func tryToLogIn(email: String, password: String, completion: @escaping (Result<String, FireBaseError>) -> ()) {
         firebase.signIn(withEmail: email, password: password) {result, error in
             guard error == nil else {
                 completion(.failure(.loginError))
@@ -65,7 +67,7 @@ class FirebaseService: FirebaseServiceProtocol {
             // in succesfull case SceneDelegate listener will change the state of app
         }
     }
-    func tryToLoginWithFacebook(viewController: SignInViewProtocol, completion: @escaping (Result<String, FireBaseError>) -> ()) {
+    public func tryToLoginWithFacebook(viewController: SignInViewProtocol, completion: @escaping (Result<String, FireBaseError>) -> ()) {
         //log in with facebook
         let login = LoginManager()
         login.logIn(permissions: ["email", "public_profile"], from: viewController as? UIViewController) { result, error in
@@ -98,16 +100,14 @@ class FirebaseService: FirebaseServiceProtocol {
             }
         }
     }
-    
-    func logOut() {
+    public func logOut() {
         do {
             try firebase.signOut()
         } catch {
             print("can't log out")
         }
     }
-    
-    func findNameOfUser(completion: @escaping (String) -> ()) {
+    public func findNameOfUser(completion: @escaping (String) -> ()) {
         guard let user = firebase.currentUser else {
             return
         }
@@ -119,7 +119,7 @@ class FirebaseService: FirebaseServiceProtocol {
             completion(userName)
         }
     }
-    func checkUserLoginnedWithFacebook() -> Bool {
+    public func checkUserLoginnedWithFacebook() -> Bool {
         if let providerData = firebase.currentUser?.providerData {
             for userInfo in providerData {
                 switch userInfo.providerID {
@@ -133,8 +133,7 @@ class FirebaseService: FirebaseServiceProtocol {
         }
         return true
     }
-    
-    func reauthenticateAndDeleteUser(password: String, completion: @escaping (Result<Bool, FireBaseError>) -> ()) {
+    public func reauthenticateAndDeleteUser(password: String, completion: @escaping (Result<Bool, FireBaseError>) -> ()) {
         guard let email = firebase.currentUser?.email else {
             print("email, is wrong")
             return completion(.failure(.wrongEmail))
@@ -162,8 +161,7 @@ class FirebaseService: FirebaseServiceProtocol {
             }
         }
     }
-    
-    func tryToDeleteAccount(completion: @escaping (Result<Bool, FireBaseError>) -> ()) {
+    public func tryToDeleteAccount(completion: @escaping (Result<Bool, FireBaseError>) -> ()) {
         guard let user = firebase.currentUser else {
             completion(.failure(.noSuchUserFindet))
             return
@@ -178,7 +176,7 @@ class FirebaseService: FirebaseServiceProtocol {
             }
         }
     }
-    func restorePassword(email: String, completion: @escaping (Result<Bool, FireBaseError>) -> ()) {
+    public func restorePassword(email: String, completion: @escaping (Result<Bool, FireBaseError>) -> ()) {
         firebase.sendPasswordReset(withEmail: email) { error in
             if error != nil {
                 completion(.failure(.restoringPasswordError))

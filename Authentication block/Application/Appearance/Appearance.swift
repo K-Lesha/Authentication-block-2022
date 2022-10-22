@@ -8,13 +8,15 @@
 import Foundation
 import UIKit
 
+//MARK: Appearance
 class Appearance {
-    static var titlesFont = UIFont()
-    static var buttomsFont = UIFont()
-    static var smallCursiveFont = UIFont()
-    
-    static var appleLogo = UIImage()
-    static var facebookLogo = UIImage()
+    // Font
+    public static var titlesFont = UIFont()
+    public static var buttomsFont = UIFont()
+    public static var smallCursiveFont = UIFont()
+    // Button logos
+    public static var appleLogo = UIImage()
+    public static var facebookLogo = UIImage()
 
     static func configure() {
         guard let titlesFont = UIFont(name: "LD Grotesk Condensed Bold", size: 40) else { fatalError("failed") }

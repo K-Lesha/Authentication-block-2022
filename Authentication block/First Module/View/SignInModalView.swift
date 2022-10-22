@@ -9,28 +9,27 @@ import UIKit
 import BottomSheet
 
 protocol SignInViewProtocol: AnyObject {
-    //MVP Protocol
+    //VIPER protocol
     var rootViewController: StartHereViewProtocol! {get set}
-    var presenter: StartHerePresenterProtocol! {get set}
-    init(rootViewController: StartHereViewProtocol, initialHeight: CGFloat, presenter: StartHerePresenterProtocol)
-    // View protocol
+    var presenter: AuthPresenterProtocol! {get set}
+    init(rootViewController: StartHereViewProtocol, initialHeight: CGFloat, presenter: AuthPresenterProtocol)
+    // View propertis
     var currentViewHeight: CGFloat! {get set}
     var keyboardHeight: CGFloat! {get set}
-    func dismissThisVC()
 }
 
 class SignInViewController: UIViewController, SignInViewProtocol {
 
-    //MARK: MVP protocol
-    weak var rootViewController: StartHereViewProtocol!
-    weak var presenter: StartHerePresenterProtocol!
+    //MARK: VIPER protocol
+    weak internal var rootViewController: StartHereViewProtocol!
+    weak internal var presenter: AuthPresenterProtocol!
 
-    //MARK: View protocol
-    var currentViewHeight: CGFloat!
-    var keyboardHeight: CGFloat! = 0
+    //MARK: View properties
+    internal var currentViewHeight: CGFloat!
+    internal var keyboardHeight: CGFloat! = 0
     
     //MARK: INIT
-    required init(rootViewController: StartHereViewProtocol, initialHeight: CGFloat, presenter: StartHerePresenterProtocol) {
+    required init(rootViewController: StartHereViewProtocol, initialHeight: CGFloat, presenter: AuthPresenterProtocol) {
         super.init(nibName: nil, bundle: nil)
         self.rootViewController = rootViewController
         self.presenter = presenter
@@ -43,13 +42,13 @@ class SignInViewController: UIViewController, SignInViewProtocol {
     }
 
     //MARK: OUTLETS
-    var signInLabel: UILabel!
-    var subSignInLabel: UILabel!
-    var emailTextField: UITextField!
-    var facebookLoginButton: UIButton!
-    var appleIdLoginButton: UIButton!
-    var legalsLabel: UILabel!
-    var nextButton: UIButton!
+    private var signInLabel: UILabel!
+    private var subSignInLabel: UILabel!
+    private var emailTextField: UITextField!
+    private var facebookLoginButton: UIButton!
+    private var appleIdLoginButton: UIButton!
+    private var legalsLabel: UILabel!
+    private var nextButton: UIButton!
     
     //MARK: viewDidLoad
     override func viewDidLoad() {
@@ -157,7 +156,8 @@ class SignInViewController: UIViewController, SignInViewProtocol {
         facebookLoginButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
         facebookLoginButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
 
-
+// TODO: реализовать кнопку https://www.youtube.com/watch?v=MY5xLrsnUVo
+        
 //        //setup@appleIdLoginButton
 //        appleIdLoginButton = UIButton()
 //        view.addSubview(appleIdLoginButton)
@@ -170,13 +170,13 @@ class SignInViewController: UIViewController, SignInViewProtocol {
 //        appleIdLoginButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
 //        appleIdLoginButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
     }
-    func showError() {
+    private func showError() {
         self.emailTextField.layer.sublayers?.first?.backgroundColor = UIColor.red.cgColor
         emailTextField.text = ""
         emailTextField.placeholder = "email should be correct"
     }
     //MARK: Button methods
-    func animateButton(button: UIButton) {
+    private func animateButton(button: UIButton) {
         //button animation
         if button == self.nextButton {
             nextButton.backgroundColor = .orange
@@ -191,11 +191,11 @@ class SignInViewController: UIViewController, SignInViewProtocol {
             })
         }
     }
-    @objc func nextButtonTapped() {
+    @objc private func nextButtonTapped() {
         animateButton(button: self.nextButton)
         checkUserDataAndContinue()
     }
-    @objc func facebookButtonTapped() {
+    @objc private func facebookButtonTapped() {
         presenter.tryToLoginWithFacebook(viewController: self) { result in
             switch result {
             case .success(_):
@@ -206,7 +206,7 @@ class SignInViewController: UIViewController, SignInViewProtocol {
         }
     }
     //MARK: Keyboard methods
-    func setupKeyBoardNotification() {
+    private func setupKeyBoardNotification() {
         //Notification keyboardWillShow
         NotificationCenter.default.addObserver(
             self,
@@ -220,7 +220,7 @@ class SignInViewController: UIViewController, SignInViewProtocol {
             name: UIResponder.keyboardWillHideNotification,
             object: nil)
     }
-    @objc func keyboardWillShow(_ notification: Notification) {
+    @objc private func keyboardWillShow(_ notification: Notification) {
         print("keyboardWillShow ", Thread.current)
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
@@ -228,19 +228,19 @@ class SignInViewController: UIViewController, SignInViewProtocol {
             preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: currentViewHeight + keyboardHeight)
         }
     }
-    @objc func keyboardWillHide(_ notification: Notification) {
+    @objc private func keyboardWillHide(_ notification: Notification) {
         if ((notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue) != nil {
             preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: currentViewHeight )
         }
     }
     //MARK: Other methods
-    func isValidEmail(email: String) -> Bool {
+    private func isValidEmail(email: String) -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
 
         let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
         return emailPred.evaluate(with: email)
     }
-    func checkUserDataAndContinue() {
+    private func checkUserDataAndContinue() {
         guard let emailString = self.emailTextField.text else {
             showError()
             return
@@ -255,16 +255,13 @@ class SignInViewController: UIViewController, SignInViewProtocol {
         }
     }
     //MARK: NAVIGATION
-        func countinueToPasswordViewController() {
+    private func countinueToPasswordViewController() {
         let viewControllerToPresent = PasswordViewController(rootViewContoroller: self, initialHeight: 200, presenter: self.presenter)
         presentBottomSheetInsideNavigationController(
             viewController: viewControllerToPresent,
             configuration:.init(cornerRadius: 15, pullBarConfiguration: .visible(.init(height: -5)), shadowConfiguration: .default))
     }
     //MARK: Deinit
-    func dismissThisVC() {
-        self.dismiss(animated: true)
-    }
     deinit {
         print("SignInViewController was deinited")
     }

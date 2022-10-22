@@ -8,26 +8,25 @@
 import UIKit
 
 protocol RegistrationViewProtocol: AnyObject {
-    //MVP Protocol
+    //VIPER protocol
     var rootViewContoroller: PasswordViewProtocol! {get set}
-    var presenter: StartHerePresenterProtocol! {get set}
-    init(rootViewContoroller: PasswordViewProtocol, initialHeight: CGFloat, presenter: StartHerePresenterProtocol)
-    // View protocol
+    var presenter: AuthPresenterProtocol! {get set}
+    init(rootViewContoroller: PasswordViewProtocol, initialHeight: CGFloat, presenter: AuthPresenterProtocol)
+    // View properties
     var currentViewHeight: CGFloat! {get set}
     var keyboardHeight: CGFloat! {get set}
-    // Methods
 }
 
 
 class RegistrationViewController: UIViewController, RegistrationViewProtocol {
-    //MARK: MVP protocol
-    weak var rootViewContoroller: PasswordViewProtocol!
-    weak var presenter: StartHerePresenterProtocol!
-    //MARK: View protocol
-    var currentViewHeight: CGFloat!
-    var keyboardHeight: CGFloat!
+    //MARK: VIPER protocol
+    weak internal var rootViewContoroller: PasswordViewProtocol!
+    weak internal var presenter: AuthPresenterProtocol!
+    //MARK: View properties
+    internal var currentViewHeight: CGFloat!
+    internal var keyboardHeight: CGFloat!
     //MARK: INIT
-    required init(rootViewContoroller: PasswordViewProtocol, initialHeight: CGFloat, presenter: StartHerePresenterProtocol) {
+    required init(rootViewContoroller: PasswordViewProtocol, initialHeight: CGFloat, presenter: AuthPresenterProtocol) {
         super.init(nibName: nil, bundle: nil)
         self.rootViewContoroller = rootViewContoroller
         self.presenter = presenter
@@ -39,12 +38,12 @@ class RegistrationViewController: UIViewController, RegistrationViewProtocol {
         fatalError("init(coder:) has not been implemented")
     }
     //MARK: OUTLETS
-    var registerLabel: UILabel!
-    var emailTextfield: UITextField!
-    var passwordTextfield: UITextField!
-    var userNameTextfield: UITextField!
-    var registerButton: UIButton!
-    var errorLabel: UILabel? = nil
+    private var registerLabel: UILabel!
+    private var emailTextfield: UITextField!
+    private var passwordTextfield: UITextField!
+    private var userNameTextfield: UITextField!
+    private var registerButton: UIButton!
+    private var errorLabel: UILabel? = nil
     
     //MARK: viewDidLoad
     override func viewDidLoad() {
@@ -55,7 +54,7 @@ class RegistrationViewController: UIViewController, RegistrationViewProtocol {
     
     //MARK: METHODS
     //MARK: View methods
-    func setupViews() {
+    private func setupViews() {
         //mark@view
         view.backgroundColor = .white
         
@@ -151,7 +150,7 @@ class RegistrationViewController: UIViewController, RegistrationViewProtocol {
         registerButton.leftAnchor.constraint(equalTo: userNameTextfield.leftAnchor, constant: 0).isActive = true
         
     }
-    func animateButton(button: UIButton) {
+    private func animateButton(button: UIButton) {
         UIView.animate(withDuration: 0.2, animations: { () -> Void in
             button.transform = .init(scaleX: 1.25, y: 1.25)
         }) { (finished: Bool) -> Void in
@@ -161,7 +160,7 @@ class RegistrationViewController: UIViewController, RegistrationViewProtocol {
             })
         }
     }
-    func showRegistrationError() {
+    private func showRegistrationError() {
         //setup@errorLabel
         errorLabel = UILabel()
         self.view.addSubview(errorLabel ?? UILabel())
@@ -177,18 +176,18 @@ class RegistrationViewController: UIViewController, RegistrationViewProtocol {
         errorLabel?.widthAnchor.constraint(equalToConstant: 250).isActive = true
         errorLabel?.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
-    func handleEmailTextFieldError() {
+    private func handleEmailTextFieldError() {
         self.emailTextfield.layer.sublayers?.first?.backgroundColor = UIColor.red.cgColor
         self.emailTextfield.text = ""
         self.emailTextfield.placeholder = "email should be correct"
     }
-    func handlePasswordTextFieldError() {
+    private func handlePasswordTextFieldError() {
         self.passwordTextfield.layer.sublayers?.first?.backgroundColor = UIColor.red.cgColor
         self.passwordTextfield.text = ""
         self.passwordTextfield.placeholder = "Your password must be longer than 6 characters"
     }
     //MARK: Keyboard methods
-    func setupKeyBoardNotification() {
+    private func setupKeyBoardNotification() {
         //Notification keyboardWillShow
         NotificationCenter.default.addObserver(
             self,
@@ -202,7 +201,7 @@ class RegistrationViewController: UIViewController, RegistrationViewProtocol {
             name: UIResponder.keyboardWillHideNotification,
             object: nil)
     }
-    @objc func keyboardWillShow(_ notification: Notification) {
+    @objc private func keyboardWillShow(_ notification: Notification) {
         print("keyboardWillShow ", Thread.current)
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
@@ -210,13 +209,13 @@ class RegistrationViewController: UIViewController, RegistrationViewProtocol {
             preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: currentViewHeight + keyboardHeight)
         }
     }
-    @objc func keyboardWillHide(_ notification: Notification) {
+    @objc private func keyboardWillHide(_ notification: Notification) {
         if ((notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue) != nil {
             preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: currentViewHeight )
         }
     }
     //MARK: Button methods
-    @objc func tryToRegister() {
+    @objc private func tryToRegister() {
         animateButton(button: registerButton)
         // hide keyboard
         emailTextfield.resignFirstResponder()
@@ -232,7 +231,7 @@ class RegistrationViewController: UIViewController, RegistrationViewProtocol {
         }
     }
     // MARK: Other methods
-    func checkTextFields() -> Bool {
+    private func checkTextFields() -> Bool {
         //Checking if textfields are OK ...
         var flag = true
         switch emailTextfield.text {
@@ -255,13 +254,13 @@ class RegistrationViewController: UIViewController, RegistrationViewProtocol {
         }
         return flag
     }
-    func isValidEmail(email: String) -> Bool {
+    private func isValidEmail(email: String) -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
         let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
         return emailPred.evaluate(with: email)
     }
     //MARK: NAVIGATION
-    func continueToRegistration() {
+    private func continueToRegistration() {
         // sending to presenter all the parameters
         if self.userNameTextfield.text?.count != 0, self.userNameTextfield.text != nil {
             presenter.userName = self.userNameTextfield.text!

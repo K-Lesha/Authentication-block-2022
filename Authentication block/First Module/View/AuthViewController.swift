@@ -9,27 +9,22 @@ import UIKit
 
 // MARK: Protocol
 protocol StartHereViewProtocol: AnyObject {
-    //MVP protocol
-    var presenter: StartHerePresenterProtocol! {get set}
-    //View protocol
-    
-    //NAVIGATION
-    func signInButtonPushed()
-    func dismissThisVC()
+    //VIPER protocol
+    var presenter: AuthPresenterProtocol! {get set}
 }
 
 //MARK: View
 class StartHereViewController: UIViewController, StartHereViewProtocol {
     
-    //MARK: MVP protocol
-    var presenter: StartHerePresenterProtocol!
+    //MARK: VIPER protocol
+    internal var presenter: AuthPresenterProtocol!
     
     //MARK: OUTLETS
-    var backgroundImageView: UIImageView!
-    var signInButton: UIButton!
-    var textLabel: UILabel!
-    var errorLabel: UILabel? = nil
-    var errorButton: UIButton? = nil
+    private var backgroundImageView: UIImageView!
+    private var signInButton: UIButton!
+    private var textLabel: UILabel!
+    private var errorLabel: UILabel? = nil
+    private var errorButton: UIButton? = nil
     
     //MARK: viewDidLoad
     override func viewDidLoad() {
@@ -39,14 +34,14 @@ class StartHereViewController: UIViewController, StartHereViewProtocol {
     }
     //MARK: METHODS
     //MARK: View methods
-    func checkInternetConnectionAndSetupViews() {
+    private func checkInternetConnectionAndSetupViews() {
         if presenter.checkInternetConnection() {
             setupViews()
         } else {
             setupErrorViews()
         }
     }
-    func setupViews() {
+    private func setupViews() {
         self.view.backgroundColor = .black
         // setup@backgroundImage
         self.backgroundImageView = UIImageView(frame: self.view.frame)
@@ -103,7 +98,7 @@ class StartHereViewController: UIViewController, StartHereViewProtocol {
         self.textLabel.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: -20).isActive = true
 
     }
-    func handleBackgroundImage(_ imageData: Data?, _ error: NetworkError?) {
+    private func handleBackgroundImage(_ imageData: Data?, _ error: NetworkError?) {
         DispatchQueue.main.async() {
             guard let imageData, let image = UIImage(data: imageData) else {
                 self.backgroundImageView.backgroundColor = .darkGray
@@ -112,7 +107,7 @@ class StartHereViewController: UIViewController, StartHereViewProtocol {
             self.backgroundImageView.image = image
         }
     }
-    func setupErrorViews() {
+    private func setupErrorViews() {
         DispatchQueue.main.async() {
             // setup@errorLabel
             self.errorLabel = UILabel()
@@ -147,7 +142,7 @@ class StartHereViewController: UIViewController, StartHereViewProtocol {
         }
     }
     //MARK: Button methods
-    func animateButton(button: UIButton) {
+    private func animateButton(button: UIButton) {
         //button animation
         UIView.animate(withDuration: 0.2, animations: { () -> Void in
             button.transform = .init(scaleX: 1.25, y: 1.25)
@@ -158,7 +153,7 @@ class StartHereViewController: UIViewController, StartHereViewProtocol {
             })
         }
     }
-    @objc func errorButtonPushed() {
+    @objc private func errorButtonPushed() {
         animateButton(button: errorButton ?? UIButton())
         errorButton?.removeFromSuperview()
         errorButton = nil
@@ -167,7 +162,7 @@ class StartHereViewController: UIViewController, StartHereViewProtocol {
         self.checkInternetConnectionAndSetupViews()
     }
     //MARK: NAVIGATION
-    @objc func signInButtonPushed() {
+    @objc private func signInButtonPushed() {
         animateButton(button: signInButton)
         let viewControllerToPresent = SignInViewController(rootViewController: self, initialHeight: 200, presenter: self.presenter)
         presentBottomSheetInsideNavigationController(
@@ -176,9 +171,6 @@ class StartHereViewController: UIViewController, StartHereViewProtocol {
     }
         
     //MARK: Deinit
-    func dismissThisVC() {
-        self.dismiss(animated: true)
-    }
     deinit {
         print("StartHereViewController was deinited")
     }

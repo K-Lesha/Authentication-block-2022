@@ -10,41 +10,39 @@ import UIKit
 
 
 protocol RouterProtocol {
-    //MVP protocol
+    //Router properties
     var navigationController: UINavigationController! { get set }
     var assemblyBuilder: AssemblyBuilderProtocol! { get set }
-    var networkService: NetworkServiceProtocol! {get set}
+    init (navigationController: UINavigationController, assemblyBuilder: AssemblyBuilderProtocol)
     //METHODS
-    func showFirstModule()
-    func showSecondModule(userUID: String)
+    func showAuthModule()
+    func showLoggedInModule(userUID: String)
     func popToRoot()
 }
 
 class Router: RouterProtocol {
-    //MARK: Protocol
-    var navigationController: UINavigationController!
-    var assemblyBuilder: AssemblyBuilderProtocol!
-    var networkService: NetworkServiceProtocol! 
-    //MARK: INIT
-    init (navigationController: UINavigationController, assemblyBuilder: AssemblyBuilderProtocol, networkService: NetworkServiceProtocol) {
+    //MARK: Router properties
+    internal var navigationController: UINavigationController!
+    internal var assemblyBuilder: AssemblyBuilderProtocol!
+    
+    required init (navigationController: UINavigationController, assemblyBuilder: AssemblyBuilderProtocol) {
         self.navigationController = navigationController
         self.assemblyBuilder = assemblyBuilder
-        self.networkService = networkService
     }
     //MARK: METHODS
-    func showFirstModule() {
+    public func showAuthModule() {
         if let navigationController = navigationController {
             guard let startHereViewController = assemblyBuilder?.createMainModule(router: self) else { return }
             navigationController.viewControllers = [startHereViewController]
         }
     }
-    func showSecondModule(userUID: String) {
+    public func showLoggedInModule(userUID: String) {
         if let navigationController = navigationController {
             guard let loggedInViewController = assemblyBuilder?.createSignInViewController(router: self, userUID: userUID) else { return }
             navigationController.viewControllers = [loggedInViewController]
         }
     }
-    func popToRoot() {
+    public func popToRoot() {
         if let navigationController = navigationController {
             navigationController.popToRootViewController(animated: true)
         }

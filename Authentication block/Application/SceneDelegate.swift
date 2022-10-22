@@ -23,21 +23,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             if user == nil {
                 print("user == nil, first module initialization")
                 let navigationController = UINavigationController()
-                let assemblyBuilder = AssemblyModuleBuilder()
                 let firebaseService = FirebaseService()
-                let networkService = NetworkService(firebaseServise: firebaseService)
-                let router = Router(navigationController: navigationController, assemblyBuilder: assemblyBuilder, networkService: networkService)
-                router.showFirstModule()
+                let networkService = NetworkService()
+                let assemblyBuilder = AssemblyModuleBuilder(networkService: networkService, firebaseService: firebaseService)
+                let router = Router(navigationController: navigationController, assemblyBuilder: assemblyBuilder)
+                router.showAuthModule()
                 self.window?.rootViewController = navigationController
             } else {
                 print("user != nil, second module initialization")
                 guard let user = user else {return}
                 let navigationController = UINavigationController()
-                let assemblyBuilder = AssemblyModuleBuilder()
                 let firebaseService = FirebaseService()
-                let networkService = NetworkService(firebaseServise: firebaseService)
-                let router = Router(navigationController: navigationController, assemblyBuilder: assemblyBuilder, networkService: networkService)
-                router.showSecondModule(userUID: user.uid)
+                let networkService = NetworkService()
+                let assemblyBuilder = AssemblyModuleBuilder(networkService: networkService, firebaseService: firebaseService)
+                let router = Router(navigationController: navigationController, assemblyBuilder: assemblyBuilder)
+                router.showLoggedInModule(userUID: user.uid)
                 self.window?.rootViewController = navigationController            }
         }
         window?.makeKeyAndVisible()

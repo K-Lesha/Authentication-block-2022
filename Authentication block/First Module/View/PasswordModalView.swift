@@ -9,27 +9,25 @@ import UIKit
 import BottomSheet
 
 protocol PasswordViewProtocol: AnyObject {
-    //MVP Protocol
+    //VIPER protocol
     var rootViewContoroller: SignInViewProtocol! {get set}
-    var presenter: StartHerePresenterProtocol! {get set}
-    init(rootViewContoroller: SignInViewProtocol, initialHeight: CGFloat, presenter: StartHerePresenterProtocol)
-    // View protocol
+    var presenter: AuthPresenterProtocol! {get set}
+    init(rootViewContoroller: SignInViewProtocol, initialHeight: CGFloat, presenter: AuthPresenterProtocol)
+    // View properties
     var currentViewHeight: CGFloat! {get set}
     var keyboardHeight: CGFloat! {get set}
-    // Methods
-    func dismissThisVC()
 }
 
 
 class PasswordViewController: UIViewController, PasswordViewProtocol {
-    //MARK: MVP protocol
-    weak var rootViewContoroller: SignInViewProtocol!
-    weak var presenter: StartHerePresenterProtocol!
-    //MARK: View protocol
+    //MARK: VIPER protocol
+    weak internal var rootViewContoroller: SignInViewProtocol!
+    weak internal var presenter: AuthPresenterProtocol!
+    //MARK: View properties
     var currentViewHeight: CGFloat!
     var keyboardHeight: CGFloat!
     //MARK: INIT
-    required init(rootViewContoroller: SignInViewProtocol, initialHeight: CGFloat, presenter: StartHerePresenterProtocol) {
+    required init(rootViewContoroller: SignInViewProtocol, initialHeight: CGFloat, presenter: AuthPresenterProtocol) {
         super.init(nibName: nil, bundle: nil)
         self.rootViewContoroller = rootViewContoroller
         self.presenter = presenter
@@ -40,15 +38,15 @@ class PasswordViewController: UIViewController, PasswordViewProtocol {
         fatalError("init(coder:) has not been implemented")
     }
     //MARK: OUTLETS
-    var passwordLabel: UILabel!
-    var passwordTextField: UITextField!
-    var createAccountButton: UIButton!
-    var tryToLoginButton: UIButton!
-    var noSuchUserLabel: UILabel!
-    var registerButton: UIButton!
-    var tryAgainButton: UIButton!
-    var errorLabel: UILabel? = nil
-    var forgotPasswordButton: UIButton? = nil
+    private var passwordLabel: UILabel!
+    private var passwordTextField: UITextField!
+    private var createAccountButton: UIButton!
+    private var tryToLoginButton: UIButton!
+    private var noSuchUserLabel: UILabel!
+    private var registerButton: UIButton!
+    private var tryAgainButton: UIButton!
+    private var errorLabel: UILabel? = nil
+    private var forgotPasswordButton: UIButton? = nil
     //MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,7 +55,7 @@ class PasswordViewController: UIViewController, PasswordViewProtocol {
     }
     //MARK: METHODS
     //MARK: View methods
-    func setupViews() {
+    private func setupViews() {
         //mark@view
         view.backgroundColor = .white
 
@@ -126,12 +124,12 @@ class PasswordViewController: UIViewController, PasswordViewProtocol {
         createAccountButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
         createAccountButton.widthAnchor.constraint(equalToConstant: 160).isActive = true
     }
-    func showPasswordError() {
+    private func showPasswordError() {
         self.passwordTextField.layer.sublayers?.first?.backgroundColor = UIColor.red.cgColor
         passwordTextField.text = ""
         passwordTextField.placeholder = "Your password must be longer than 6 characters"
     }
-    func showLoginError() {
+    private func showLoginError() {
         //setup@errorLabel
         errorLabel = UILabel()
         self.view.addSubview(errorLabel ?? UILabel())
@@ -164,7 +162,7 @@ class PasswordViewController: UIViewController, PasswordViewProtocol {
 
         
     }
-    func showAlert(_ trueOrNot: Bool) {
+    private func showAlert(_ trueOrNot: Bool) {
         var alert = UIAlertController()
         if trueOrNot {
             alert = UIAlertController(title: "Check your email", message: "there you can reset your pass", preferredStyle: .alert)
@@ -178,7 +176,7 @@ class PasswordViewController: UIViewController, PasswordViewProtocol {
         
     }
     // MARK: Button methods
-    func animateButton(button: UIButton) {
+    private func animateButton(button: UIButton) {
         UIView.animate(withDuration: 0.2, animations: { () -> Void in
             button.transform = .init(scaleX: 1.25, y: 1.25)
         }) { (finished: Bool) -> Void in
@@ -189,7 +187,7 @@ class PasswordViewController: UIViewController, PasswordViewProtocol {
         }
     }
     //MARK: Keyboard methods
-    func setupKeyBoardNotification() {
+    private func setupKeyBoardNotification() {
         //Notification keyboardWillShow
         NotificationCenter.default.addObserver(
             self,
@@ -203,7 +201,7 @@ class PasswordViewController: UIViewController, PasswordViewProtocol {
             name: UIResponder.keyboardWillHideNotification,
             object: nil)
     }
-    @objc func keyboardWillShow(_ notification: Notification) {
+    @objc private func keyboardWillShow(_ notification: Notification) {
         print("keyboardWillShow ", Thread.current)
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
@@ -211,13 +209,13 @@ class PasswordViewController: UIViewController, PasswordViewProtocol {
             preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: currentViewHeight + keyboardHeight)
         }
     }
-    @objc func keyboardWillHide(_ notification: Notification) {
+    @objc private func keyboardWillHide(_ notification: Notification) {
         if ((notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue) != nil {
             preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: currentViewHeight )
         }
     }
     //MARK: Button methods
-    @objc func tryToLogin() {
+    @objc private func tryToLogin() {
         animateButton(button: tryToLoginButton)
         if checkPasswordTextFeild() {
             presenter.password = self.passwordTextField.text ?? ""
@@ -226,7 +224,7 @@ class PasswordViewController: UIViewController, PasswordViewProtocol {
             return
         }
     }
-    @objc func tryToRegister() {
+    @objc private func tryToRegister() {
         animateButton(button: createAccountButton)
         if checkPasswordTextFeild() {
             presenter.password = self.passwordTextField.text ?? ""
@@ -235,7 +233,7 @@ class PasswordViewController: UIViewController, PasswordViewProtocol {
             return
         }
     }
-    func checkPasswordTextFeild() -> Bool {
+    private func checkPasswordTextFeild() -> Bool {
         guard let passwordString = self.passwordTextField.text else {
             showPasswordError()
             return false
@@ -248,7 +246,7 @@ class PasswordViewController: UIViewController, PasswordViewProtocol {
             return false
         }
     }
-    @objc func restorePassword() {
+    @objc private func restorePassword() {
         presenter.restorePassword() { result in
             switch result {
             case .success(_):
@@ -260,7 +258,7 @@ class PasswordViewController: UIViewController, PasswordViewProtocol {
         }
     }
     //MARK: NAVIGATION
-    func continueToRegistrationViewController() {
+    private func continueToRegistrationViewController() {
         //change view vize to normal
         preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: currentViewHeight)
         //show next modal view
@@ -269,7 +267,7 @@ class PasswordViewController: UIViewController, PasswordViewProtocol {
             viewController: viewControllerToPresent,
             configuration:.init(cornerRadius: 15, pullBarConfiguration: .visible(.init(height: -5)), shadowConfiguration: .default))
     }
-    func continueToLogginedInViewController() {
+    private func continueToLogginedInViewController() {
         presenter.tryToLogin { result in
             switch result {
             case .success(_):
@@ -281,9 +279,6 @@ class PasswordViewController: UIViewController, PasswordViewProtocol {
         }
     }
     //MARK: Deinit
-    func dismissThisVC() {
-        self.dismiss(animated: true)
-    }
     deinit {
         print("PasswordViewController was deinited")
     }

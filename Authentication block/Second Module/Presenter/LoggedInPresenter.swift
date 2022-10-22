@@ -9,11 +9,11 @@ import Foundation
 
 //MARK: Protocol
 protocol LoggedInPresenterProtocol: AnyObject {
-    // MVP protocol
+    // VIPER protocol
     var view: LoggedInViewControllerProtocol! {get set}
-    var networkService: NetworkServiceProtocol! {get set}
+    var interactor: LoggedInInteractorProtocol! {get set}
     var router: RouterProtocol! {get set}
-    init(view: LoggedInViewControllerProtocol, networkService: NetworkServiceProtocol, router: RouterProtocol, userUID: String)
+    init(view: LoggedInViewControllerProtocol, interactor: LoggedInInteractorProtocol, router: RouterProtocol, userUID: String)
     //TEMP DATA
     var userName: String! {get set}
     var userUID: String! {get set}
@@ -25,37 +25,36 @@ protocol LoggedInPresenterProtocol: AnyObject {
 
 //MARK: Presenter
 class LoggedInPresenter: LoggedInPresenterProtocol {
-
-    //MARK: MVP protocol
-    var view: LoggedInViewControllerProtocol!
-    var networkService: NetworkServiceProtocol!
-    var router: RouterProtocol!
-    required init(view: LoggedInViewControllerProtocol, networkService: NetworkServiceProtocol, router: RouterProtocol, userUID: String) {
+    //MARK: VIPER protocol
+    internal weak var view: LoggedInViewControllerProtocol!
+    internal var interactor: LoggedInInteractorProtocol!
+    internal var router: RouterProtocol!
+    required init(view: LoggedInViewControllerProtocol, interactor: LoggedInInteractorProtocol, router: RouterProtocol, userUID: String) {
         self.view = view
-        self.networkService = networkService
+        self.interactor = interactor
         self.router = router
         self.userUID = userUID
-        networkService.findNameOfUser() { userName in
+        interactor.findNameOfUser() { userName in
             self.userName = userName
         }
     }
     //MARK: TEMP DATA
-    var userName: String! {
+    internal var userName: String! {
         didSet {
             view.setNewValueForUserNamelabel(newUserName: userName)
         }
     }
-    var userUID: String!
+    internal var userUID: String!
     
     //MARK: METHODS
-    func logOut() {
-        networkService.logOut()
+    public func logOut() {
+        interactor.logOut()
     }
-    func reauthenticateAndDeleteUser(password: String, completion: @escaping (Result<Bool, FireBaseError>) -> ()) {
-        networkService.reauthenticateAndDeleteUser(password: password, completion: completion)
+    public func reauthenticateAndDeleteUser(password: String, completion: @escaping (Result<Bool, FireBaseError>) -> ()) {
+        interactor.reauthenticateAndDeleteUser(password: password, completion: completion)
     }
-    func checkUserLoginnedWithFacebook() -> Bool {
-        return networkService.checkUserLoginnedWithFacebook()
+    public func checkUserLoginnedWithFacebook() -> Bool {
+        return interactor.checkUserLoginnedWithFacebook()
     }
 
 }

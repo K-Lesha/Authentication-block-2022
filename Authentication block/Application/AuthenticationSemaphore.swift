@@ -7,7 +7,7 @@
 
 import Foundation
 
-//Dispatch semaphore
+//MARK: Dispatch semaphore
 class AuthenticationSemaphore {
     static let shared = DispatchSemaphore(value: 0)
     private init() {}
