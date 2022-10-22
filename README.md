@@ -1,6 +1,6 @@
 # Authentication-block
 
-Hi! That's my Authorisation app using MVP.
+Hi! That's my Authorisation app using VIPER.
 
 Here it is.
 
