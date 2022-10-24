@@ -121,12 +121,11 @@ class LoggedInViewController: UIViewController, LoggedInViewControllerProtocol {
         let alert = UIAlertController(title: "Enter your password to confirm", message: "", preferredStyle: .alert)
         alert.addTextField()
         alert.textFields?.first?.isSecureTextEntry = true
-        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
-            print("alert: ok pushed")
+        let okAction = UIAlertAction(title: "OK", style: .default) { [unowned self] _ in
             let password = alert.textFields?.first?.text ?? ""
             self.deleteUserWithPassword(password: password)
         }
-        let canselAction = UIAlertAction(title: "Cansel", style: .cancel) { canselAction in
+        let canselAction = UIAlertAction(title: "Cansel", style: .cancel) { [unowned self] canselAction in
             self.removeDeletingProgressFromSuperView()
         }
         alert.addAction(canselAction)
@@ -135,11 +134,11 @@ class LoggedInViewController: UIViewController, LoggedInViewControllerProtocol {
     }
     private func deleteUserWithPassword(password: String) {
         print("view: ok pushed, calling presenter.reauthenticateAndDeleteUser")
-        presenter.reauthenticateAndDeleteUser(password: password) { deletionResult in
+        presenter.reauthenticateAndDeleteUser(password: password) { [unowned self] deletionResult in
             switch deletionResult {
             case .success(_):
-                print("view: deletion succesfull")
-                self.removeDeletingProgressFromSuperView()
+                print("LoggedInViewController: reauthenticateAndDeleteUser() case .success", Thread.current)
+                // in succesfull case -> SceneDelegate {Auth.auth().addStateDidChangeListener} -> will change the state of app
             case .failure(let error):
                 print("view: deletion failed ", error.localizedDescription)
                 self.removeDeletingProgressFromSuperView()

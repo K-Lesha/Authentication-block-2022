@@ -9,16 +9,15 @@ import UIKit
 
 protocol RegistrationViewProtocol: AnyObject {
     //VIPER protocol
-    var rootViewContoroller: PasswordViewProtocol! {get set}
     var presenter: AuthPresenterProtocol! {get set}
-    init(rootViewContoroller: PasswordViewProtocol, initialHeight: CGFloat, presenter: AuthPresenterProtocol)
+    init(initialHeight: CGFloat, presenter: AuthPresenterProtocol)
     // View properties
     var currentViewHeight: CGFloat! {get set}
     var keyboardHeight: CGFloat! {get set}
 }
 
 
-class RegistrationViewController: UIViewController, RegistrationViewProtocol {
+class RegistrationModalViewController: UIViewController, RegistrationViewProtocol {
     //MARK: VIPER protocol
     weak internal var rootViewContoroller: PasswordViewProtocol!
     weak internal var presenter: AuthPresenterProtocol!
@@ -26,9 +25,8 @@ class RegistrationViewController: UIViewController, RegistrationViewProtocol {
     internal var currentViewHeight: CGFloat!
     internal var keyboardHeight: CGFloat!
     //MARK: INIT
-    required init(rootViewContoroller: PasswordViewProtocol, initialHeight: CGFloat, presenter: AuthPresenterProtocol) {
+    required init(initialHeight: CGFloat, presenter: AuthPresenterProtocol) {
         super.init(nibName: nil, bundle: nil)
-        self.rootViewContoroller = rootViewContoroller
         self.presenter = presenter
         preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: initialHeight)
         currentViewHeight = initialHeight
@@ -285,12 +283,12 @@ class RegistrationViewController: UIViewController, RegistrationViewProtocol {
     }
     //MARK: Deinit
     deinit {
-        print("RegistrationViewController was deinited")
+        print("RegistrationModalViewController was deinited")
     }
 }
 
 //MARK: UITextFieldDelegate
-extension RegistrationViewController: UITextFieldDelegate {
+extension RegistrationModalViewController: UITextFieldDelegate {
     //textFieldDidEndEditing
     func textFieldDidEndEditing(_ textField: UITextField) {
         //loginTextField

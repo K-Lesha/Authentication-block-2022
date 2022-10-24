@@ -29,7 +29,7 @@ class AssemblyModuleBuilder: AssemblyBuilderProtocol {
     
     //MARK: METHODS
     internal func createMainModule(router: RouterProtocol) -> UIViewController {
-        let view = StartHereViewController()
+        let view = AuthViewController()
         let interactor = AuthInteractor(networkService: self.networkService, firebaseService: self.firebaseService)
         let presenter = AuthPresenter(view: view, interactor: interactor, router: router)
         view.presenter = presenter

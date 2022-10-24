@@ -238,8 +238,8 @@
             filePath = "Authentication block/Application/SceneDelegate.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "32"
-            endingLineNumber = "32"
+            startingLineNumber = "31"
+            endingLineNumber = "31"
             landmarkName = "scene(_:willConnectTo:options:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -254,8 +254,8 @@
             filePath = "Authentication block/Application/SceneDelegate.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "18"
-            endingLineNumber = "18"
+            startingLineNumber = "17"
+            endingLineNumber = "17"
             landmarkName = "scene(_:willConnectTo:options:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -909,25 +909,9 @@
             filePath = "Authentication block/Second Module/View/LoggedInViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "127"
-            endingLineNumber = "127"
+            startingLineNumber = "126"
+            endingLineNumber = "126"
             landmarkName = "deleteAccountButtonPushed()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "CF61AD02-D794-4747-A83A-1F1C98BEFD3D"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Authentication block/Second Module/View/LoggedInViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "142"
-            endingLineNumber = "142"
-            landmarkName = "deleteUserWithPassword(password:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -941,8 +925,8 @@
             filePath = "Authentication block/Second Module/View/LoggedInViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "139"
-            endingLineNumber = "139"
+            startingLineNumber = "138"
+            endingLineNumber = "138"
             landmarkName = "deleteUserWithPassword(password:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -957,8 +941,8 @@
             filePath = "Authentication block/Second Module/View/LoggedInViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
             landmarkName = "deleteUserWithPassword(password:)"
             landmarkType = "7">
             <Locations>
@@ -1037,8 +1021,8 @@
             filePath = "Authentication block/Second Module/View/LoggedInViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "140"
-            endingLineNumber = "140"
+            startingLineNumber = "139"
+            endingLineNumber = "139"
             landmarkName = "deleteUserWithPassword(password:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1053,8 +1037,8 @@
             filePath = "Authentication block/Second Module/View/LoggedInViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "143"
-            endingLineNumber = "143"
+            startingLineNumber = "142"
+            endingLineNumber = "142"
             landmarkName = "deleteUserWithPassword(password:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1069,8 +1053,8 @@
             filePath = "Authentication block/Second Module/View/LoggedInViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "145"
-            endingLineNumber = "145"
+            startingLineNumber = "144"
+            endingLineNumber = "144"
             landmarkName = "deleteUserWithPassword(password:)"
             landmarkType = "7">
          </BreakpointContent>

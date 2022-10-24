@@ -27,8 +27,8 @@ protocol LoggedInPresenterProtocol: AnyObject {
 class LoggedInPresenter: LoggedInPresenterProtocol {
     //MARK: VIPER protocol
     internal weak var view: LoggedInViewControllerProtocol!
+    internal weak var router: RouterProtocol!
     internal var interactor: LoggedInInteractorProtocol!
-    internal var router: RouterProtocol!
     required init(view: LoggedInViewControllerProtocol, interactor: LoggedInInteractorProtocol, router: RouterProtocol, userUID: String) {
         self.view = view
         self.interactor = interactor

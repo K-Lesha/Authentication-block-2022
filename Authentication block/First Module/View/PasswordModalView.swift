@@ -10,26 +10,23 @@ import BottomSheet
 
 protocol PasswordViewProtocol: AnyObject {
     //VIPER protocol
-    var rootViewContoroller: SignInViewProtocol! {get set}
     var presenter: AuthPresenterProtocol! {get set}
-    init(rootViewContoroller: SignInViewProtocol, initialHeight: CGFloat, presenter: AuthPresenterProtocol)
+    init(initialHeight: CGFloat, presenter: AuthPresenterProtocol)
     // View properties
     var currentViewHeight: CGFloat! {get set}
     var keyboardHeight: CGFloat! {get set}
 }
 
 
-class PasswordViewController: UIViewController, PasswordViewProtocol {
+class PasswordModalViewController: UIViewController, PasswordViewProtocol {
     //MARK: VIPER protocol
-    weak internal var rootViewContoroller: SignInViewProtocol!
     weak internal var presenter: AuthPresenterProtocol!
     //MARK: View properties
     var currentViewHeight: CGFloat!
     var keyboardHeight: CGFloat!
     //MARK: INIT
-    required init(rootViewContoroller: SignInViewProtocol, initialHeight: CGFloat, presenter: AuthPresenterProtocol) {
+    required init(initialHeight: CGFloat, presenter: AuthPresenterProtocol) {
         super.init(nibName: nil, bundle: nil)
-        self.rootViewContoroller = rootViewContoroller
         self.presenter = presenter
         preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: initialHeight)
         currentViewHeight = initialHeight
@@ -262,7 +259,7 @@ class PasswordViewController: UIViewController, PasswordViewProtocol {
         //change view vize to normal
         preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: currentViewHeight)
         //show next modal view
-        let viewControllerToPresent = RegistrationViewController(rootViewContoroller: self, initialHeight: 200, presenter: self.presenter)
+        let viewControllerToPresent = RegistrationModalViewController(initialHeight: 200, presenter: self.presenter)
         presentBottomSheetInsideNavigationController(
             viewController: viewControllerToPresent,
             configuration:.init(cornerRadius: 15, pullBarConfiguration: .visible(.init(height: -5)), shadowConfiguration: .default))
@@ -280,12 +277,12 @@ class PasswordViewController: UIViewController, PasswordViewProtocol {
     }
     //MARK: Deinit
     deinit {
-        print("PasswordViewController was deinited")
+        print("PasswordModalViewController was deinited")
     }
 }
 
 //MARK: UITextFieldDelegate
-extension PasswordViewController: UITextFieldDelegate {
+extension PasswordModalViewController: UITextFieldDelegate {
     //textFieldDidEndEditing
     func textFieldDidEndEditing(_ textField: UITextField) {
         preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: currentViewHeight)

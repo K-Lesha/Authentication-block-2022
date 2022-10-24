@@ -10,18 +10,16 @@ import BottomSheet
 
 protocol SignInViewProtocol: AnyObject {
     //VIPER protocol
-    var rootViewController: StartHereViewProtocol! {get set}
     var presenter: AuthPresenterProtocol! {get set}
-    init(rootViewController: StartHereViewProtocol, initialHeight: CGFloat, presenter: AuthPresenterProtocol)
+    init(initialHeight: CGFloat, presenter: AuthPresenterProtocol)
     // View propertis
     var currentViewHeight: CGFloat! {get set}
     var keyboardHeight: CGFloat! {get set}
 }
 
-class SignInViewController: UIViewController, SignInViewProtocol {
+class SignInModalViewController: UIViewController, SignInViewProtocol {
 
     //MARK: VIPER protocol
-    weak internal var rootViewController: StartHereViewProtocol!
     weak internal var presenter: AuthPresenterProtocol!
 
     //MARK: View properties
@@ -29,9 +27,8 @@ class SignInViewController: UIViewController, SignInViewProtocol {
     internal var keyboardHeight: CGFloat! = 0
     
     //MARK: INIT
-    required init(rootViewController: StartHereViewProtocol, initialHeight: CGFloat, presenter: AuthPresenterProtocol) {
+    required init(initialHeight: CGFloat, presenter: AuthPresenterProtocol) {
         super.init(nibName: nil, bundle: nil)
-        self.rootViewController = rootViewController
         self.presenter = presenter
         preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: initialHeight)
         currentViewHeight = initialHeight
@@ -256,19 +253,19 @@ class SignInViewController: UIViewController, SignInViewProtocol {
     }
     //MARK: NAVIGATION
     private func countinueToPasswordViewController() {
-        let viewControllerToPresent = PasswordViewController(rootViewContoroller: self, initialHeight: 200, presenter: self.presenter)
+        let viewControllerToPresent = PasswordModalViewController(initialHeight: 200, presenter: self.presenter)
         presentBottomSheetInsideNavigationController(
             viewController: viewControllerToPresent,
             configuration:.init(cornerRadius: 15, pullBarConfiguration: .visible(.init(height: -5)), shadowConfiguration: .default))
     }
     //MARK: Deinit
     deinit {
-        print("SignInViewController was deinited")
+        print("SignInModalViewController was deinited")
     }
 }
 
 //MARK: UITextFieldDelegate
-extension SignInViewController: UITextFieldDelegate {
+extension SignInModalViewController: UITextFieldDelegate {
     //textFieldShouldBeginEditing
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         animateButton(button: self.nextButton)

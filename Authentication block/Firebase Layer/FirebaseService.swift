@@ -7,7 +7,6 @@
 
 import Foundation
 import FirebaseAuth
-import FirebaseCore
 import FirebaseDatabase
 import FBSDKLoginKit
 

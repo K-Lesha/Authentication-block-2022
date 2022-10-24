@@ -197,8 +197,8 @@
 		8A850FD328F5BBE00046088A /* Second Module */ = {
 			isa = PBXGroup;
 			children = (
-				8AF83E6A2904A5C000614257 /* Intercator */,
 				8A850FD528F5BC0F0046088A /* Presenter */,
+				8AF83E6A2904A5C000614257 /* Intercator */,
 				8A850FD428F5BC080046088A /* View */,
 			);
 			path = "Second Module";

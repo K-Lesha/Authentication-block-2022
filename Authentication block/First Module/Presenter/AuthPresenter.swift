@@ -10,10 +10,10 @@ import Foundation
 //MARK: Protocol
 protocol AuthPresenterProtocol: AnyObject {
     // VIPER protocol
-    var view: StartHereViewProtocol! {get set}
+    var view: AuthViewProtocol! {get set}
     var interactor: AuthInteractorProtocol! {get set}
     var router: RouterProtocol! {get set}
-    init(view: StartHereViewProtocol, interactor: AuthInteractorProtocol, router: RouterProtocol)
+    init(view: AuthViewProtocol, interactor: AuthInteractorProtocol, router: RouterProtocol)
     //TEMP DATA
     var userName: String  {get set}
     var password: String  {get set}
@@ -31,11 +31,11 @@ protocol AuthPresenterProtocol: AnyObject {
 class AuthPresenter: AuthPresenterProtocol {
 
     //MARK: VIPER protocol
-    internal weak var view: StartHereViewProtocol!
-    internal var router: RouterProtocol!
+    internal weak var view: AuthViewProtocol!
+    internal weak var router: RouterProtocol!
     internal var interactor: AuthInteractorProtocol!
     
-    required init(view: StartHereViewProtocol, interactor: AuthInteractorProtocol, router: RouterProtocol) {
+    required init(view: AuthViewProtocol, interactor: AuthInteractorProtocol, router: RouterProtocol) {
         self.view = view
         self.interactor = interactor
         self.router = router

@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 
-protocol RouterProtocol {
+protocol RouterProtocol: AnyObject {
     //Router properties
     var navigationController: UINavigationController! { get set }
     var assemblyBuilder: AssemblyBuilderProtocol! { get set }

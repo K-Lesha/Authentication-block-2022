@@ -8,13 +8,13 @@
 import UIKit
 
 // MARK: Protocol
-protocol StartHereViewProtocol: AnyObject {
+protocol AuthViewProtocol: AnyObject {
     //VIPER protocol
     var presenter: AuthPresenterProtocol! {get set}
 }
 
 //MARK: View
-class StartHereViewController: UIViewController, StartHereViewProtocol {
+class AuthViewController: UIViewController, AuthViewProtocol {
     
     //MARK: VIPER protocol
     internal var presenter: AuthPresenterProtocol!
@@ -164,7 +164,7 @@ class StartHereViewController: UIViewController, StartHereViewProtocol {
     //MARK: NAVIGATION
     @objc private func signInButtonPushed() {
         animateButton(button: signInButton)
-        let viewControllerToPresent = SignInViewController(rootViewController: self, initialHeight: 200, presenter: self.presenter)
+        let viewControllerToPresent = SignInModalViewController(initialHeight: 200, presenter: self.presenter)
         presentBottomSheetInsideNavigationController(
             viewController: viewControllerToPresent,
             configuration:.init(cornerRadius: 15, pullBarConfiguration: .visible(.init(height: -5)), shadowConfiguration: .default))
@@ -172,7 +172,7 @@ class StartHereViewController: UIViewController, StartHereViewProtocol {
         
     //MARK: Deinit
     deinit {
-        print("StartHereViewController was deinited")
+        print("AuthViewController was deinited")
     }
 }
 
