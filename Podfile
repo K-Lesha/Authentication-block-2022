@@ -7,6 +7,7 @@ target 'Authentication block' do
   pod 'FirebaseCore'
   pod 'FirebaseAuth'
   pod 'FirebaseDatabase'
+  pod 'GoogleSignIn'
   pod 'FBSDKLoginKit'
   # Pods for Authentication block
 

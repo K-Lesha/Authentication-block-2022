@@ -23,6 +23,7 @@ protocol AuthPresenterProtocol: AnyObject {
     func tryToRegister(completion: @escaping (Result<String, FireBaseError>) -> ())
     func tryToLogin(completion: @escaping (Result<String, FireBaseError>) -> ())
     func tryToLoginWithFacebook(viewController: SignInViewProtocol, completion: @escaping (Result<String, FireBaseError>) -> ())
+    func tryToLoginWithGoogle(viewController: SignInViewProtocol, completion: @escaping (Result<String, FireBaseError>) -> ())
     func checkInternetConnection() -> Bool
     func restorePassword(completion: @escaping (Result<Bool, FireBaseError>) -> ())
 }
@@ -77,5 +78,8 @@ class AuthPresenter: AuthPresenterProtocol {
     }
     internal func restorePassword(completion: @escaping (Result<Bool, FireBaseError>) -> ()) {
         self.interactor.restorePassword(email: self.email, completion: completion)
+    }
+    internal func tryToLoginWithGoogle(viewController: SignInViewProtocol, completion: @escaping (Result<String, FireBaseError>) -> ()) {
+        interactor.tryToLoginWithGoogle(viewController: viewController, completion: completion)
     }
 }

@@ -19,10 +19,12 @@ protocol AuthInteractorProtocol {
     func tryToRegister(userName: String, email: String, password: String, completion: @escaping (Result<String, FireBaseError>) -> ())
     func tryToLogIn(email: String, password: String, completion: @escaping (Result<String, FireBaseError>) -> ())
     func tryToLoginWithFacebook(viewController: SignInViewProtocol, completion: @escaping (Result<String, FireBaseError>) -> ())
+    func tryToLoginWithGoogle(viewController: SignInViewProtocol, completion: @escaping (Result<String, FireBaseError>) -> ())
     func restorePassword(email: String, completion: @escaping (Result<Bool, FireBaseError>) -> ())
 }
 
 class AuthInteractor: AuthInteractorProtocol {
+
     //MARK: VIPER protocol
     internal var networkService: NetworkServiceProtocol!
     internal var firebaseService: FirebaseServiceProtocol!
@@ -50,4 +52,8 @@ class AuthInteractor: AuthInteractorProtocol {
     internal func restorePassword(email: String, completion: @escaping (Result<Bool, FireBaseError>) -> ()) {
         firebaseService.restorePassword(email: email, completion: completion)
     }
+    internal func tryToLoginWithGoogle(viewController: SignInViewProtocol, completion: @escaping (Result<String, FireBaseError>) -> ()) {
+        firebaseService.tryToLoginWithGoogle(viewController: viewController, completion: completion)
+    }
+
 }

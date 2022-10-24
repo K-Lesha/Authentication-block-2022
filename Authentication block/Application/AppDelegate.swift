@@ -21,9 +21,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Appearance.configure()
         return true
     }
-    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-        return ApplicationDelegate.shared.application(app, open: url, options: options)
-    }
+//    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+//        //  if url.consist ... return GIDSignIn.sharedInstance.handle(url) // google
+//        return ApplicationDelegate.shared.application(app, open: url, options: options) // facebook
+//    }
 
     // MARK: UISceneSession Lifecycle
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {

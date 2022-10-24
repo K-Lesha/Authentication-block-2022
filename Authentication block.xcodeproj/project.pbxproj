@@ -97,6 +97,7 @@
 				8A70F95628F96A4D006D23E1 /* LD Grotesk Condensed Bold.ttf */,
 				8A70F95A28F96D92006D23E1 /* Helvetica Bold.ttf */,
 				8A70F95C28F96DC0006D23E1 /* LD Grotesk Condensed Ultra Light Oblique.ttf */,
+				8A850FB428F5738A0046088A /* Assets.xcassets */,
 			);
 			path = Appearance;
 			sourceTree = "<group>";
@@ -151,7 +152,6 @@
 			isa = PBXGroup;
 			children = (
 				8A850FB128F573870046088A /* Main.storyboard */,
-				8A850FB428F5738A0046088A /* Assets.xcassets */,
 				8A850FB628F5738A0046088A /* LaunchScreen.storyboard */,
 			);
 			path = "Supporting files";

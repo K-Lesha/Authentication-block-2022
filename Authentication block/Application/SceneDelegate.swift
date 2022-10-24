@@ -37,7 +37,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 let assemblyBuilder = AssemblyModuleBuilder(networkService: networkService, firebaseService: firebaseService)
                 let router = Router(navigationController: navigationController, assemblyBuilder: assemblyBuilder)
                 router.showLoggedInModule(userUID: user.uid)
-                self.window?.rootViewController = navigationController            }
+                self.window?.rootViewController = navigationController
+            }
         }
         window?.makeKeyAndVisible()
     }

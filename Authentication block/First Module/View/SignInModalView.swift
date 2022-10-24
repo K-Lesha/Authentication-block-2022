@@ -44,6 +44,7 @@ class SignInModalViewController: UIViewController, SignInViewProtocol {
     private var emailTextField: UITextField!
     private var facebookLoginButton: UIButton!
     private var appleIdLoginButton: UIButton!
+    private var googleLoginButton: UIButton!
     private var legalsLabel: UILabel!
     private var nextButton: UIButton!
     
@@ -152,6 +153,19 @@ class SignInModalViewController: UIViewController, SignInViewProtocol {
         facebookLoginButton.leftAnchor.constraint(equalTo: nextButton.rightAnchor, constant: 10).isActive = true
         facebookLoginButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
         facebookLoginButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        
+        //setup@googleLoginButton
+        googleLoginButton = UIButton()
+        view.addSubview(googleLoginButton)
+        googleLoginButton.setImage(Appearance.googleLogo, for: .normal)
+        googleLoginButton.addTarget(self, action: #selector(googleButtonTapped), for: .touchUpInside)
+        //constraints@googleLoginButton
+        googleLoginButton.translatesAutoresizingMaskIntoConstraints = false
+        googleLoginButton.centerYAnchor.constraint(equalTo: nextButton.centerYAnchor, constant: 0).isActive = true
+        googleLoginButton.leftAnchor.constraint(equalTo: facebookLoginButton.rightAnchor, constant: 5).isActive = true
+        googleLoginButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        googleLoginButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+
 
 // TODO: реализовать кнопку https://www.youtube.com/watch?v=MY5xLrsnUVo
         
@@ -197,6 +211,16 @@ class SignInModalViewController: UIViewController, SignInViewProtocol {
             switch result {
             case .success(_):
                 print("facebook signIn succesfull")
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    @objc func googleButtonTapped() {
+        presenter.tryToLoginWithGoogle(viewController: self) { result in
+            switch result {
+            case .success(_):
+                print("google signIn succesfull")
             case .failure(let error):
                 print(error.localizedDescription)
             }
