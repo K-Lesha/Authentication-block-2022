@@ -112,7 +112,7 @@ class LoggedInViewController: UIViewController, LoggedInViewControllerProtocol {
 
     //MARK: Button methods
     @objc private func logOutButtonPushed() {
-        presenter.logOut()
+        presenter.logOutWithFirebase()
     }
     @objc private func deleteAccountButtonPushed() {
         //view reaction
@@ -134,7 +134,7 @@ class LoggedInViewController: UIViewController, LoggedInViewControllerProtocol {
     }
     private func deleteUserWithPassword(password: String) {
         print("view: ok pushed, calling presenter.reauthenticateAndDeleteUser")
-        presenter.reauthenticateAndDeleteUser(password: password) { [unowned self] deletionResult in
+        presenter.reauthenticateAndDeleteUserWithFirebase(password: password) { [unowned self] deletionResult in
             switch deletionResult {
             case .success(_):
                 print("LoggedInViewController: reauthenticateAndDeleteUser() case .success", Thread.current)

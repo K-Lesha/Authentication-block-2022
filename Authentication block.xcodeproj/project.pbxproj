@@ -125,8 +125,8 @@
 			children = (
 				8AD121772902A38300E93421 /* Authentication block.entitlements */,
 				8A850FBF28F573BE0046088A /* Application */,
-				8A850FC628F5744B0046088A /* First Module */,
-				8A850FD328F5BBE00046088A /* Second Module */,
+				8A850FC628F5744B0046088A /* Auth Module */,
+				8A850FD328F5BBE00046088A /* LoggedIn Module */,
 				8A850FCE28F575530046088A /* Network Service */,
 				8A0625A628F802A700D52BB2 /* Firebase Layer */,
 				8A850FC028F573C80046088A /* Supporting files */,
@@ -157,14 +157,14 @@
 			path = "Supporting files";
 			sourceTree = "<group>";
 		};
-		8A850FC628F5744B0046088A /* First Module */ = {
+		8A850FC628F5744B0046088A /* Auth Module */ = {
 			isa = PBXGroup;
 			children = (
 				8A850FC828F574650046088A /* Presenter */,
 				8AF83E672904A55500614257 /* Interactor */,
 				8A850FC728F5745B0046088A /* View */,
 			);
-			path = "First Module";
+			path = "Auth Module";
 			sourceTree = "<group>";
 		};
 		8A850FC728F5745B0046088A /* View */ = {
@@ -194,14 +194,14 @@
 			path = "Network Service";
 			sourceTree = "<group>";
 		};
-		8A850FD328F5BBE00046088A /* Second Module */ = {
+		8A850FD328F5BBE00046088A /* LoggedIn Module */ = {
 			isa = PBXGroup;
 			children = (
 				8A850FD528F5BC0F0046088A /* Presenter */,
 				8AF83E6A2904A5C000614257 /* Intercator */,
 				8A850FD428F5BC080046088A /* View */,
 			);
-			path = "Second Module";
+			path = "LoggedIn Module";
 			sourceTree = "<group>";
 		};
 		8A850FD428F5BC080046088A /* View */ = {

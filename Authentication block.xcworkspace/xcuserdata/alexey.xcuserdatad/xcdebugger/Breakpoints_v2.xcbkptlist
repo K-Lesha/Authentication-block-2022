@@ -208,7 +208,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "35"
             endingLineNumber = "35"
-            landmarkName = "createMainModule(router:)"
+            landmarkName = "createAuthModule(router:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -224,23 +224,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "34"
             endingLineNumber = "34"
-            landmarkName = "createMainModule(router:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "7B03673F-B388-470F-9BC8-8B59B0096538"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Authentication block/Application/SceneDelegate.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "31"
-            endingLineNumber = "31"
-            landmarkName = "scene(_:willConnectTo:options:)"
+            landmarkName = "createAuthModule(router:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -272,7 +256,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "32"
             endingLineNumber = "32"
-            landmarkName = "createMainModule(router:)"
+            landmarkName = "createAuthModule(router:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -991,7 +975,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "54"
             endingLineNumber = "54"
-            landmarkName = "reauthenticateAndDeleteUser(password:completion:)"
+            landmarkName = "reauthenticateAndDeleteUserWithFirebase(password:completion:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

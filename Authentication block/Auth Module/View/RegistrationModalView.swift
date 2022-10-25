@@ -139,7 +139,7 @@ class RegistrationModalViewController: UIViewController, RegistrationViewProtoco
         registerButton.titleLabel?.font = Appearance.buttomsFont
         registerButton.backgroundColor = .orange
         registerButton.layer.cornerRadius = 15
-        registerButton.addTarget(self, action: #selector(tryToRegister), for: .touchUpInside)
+        registerButton.addTarget(self, action: #selector(tryToRegisterWithFirebase), for: .touchUpInside)
         //constraints@nextButton
         registerButton.translatesAutoresizingMaskIntoConstraints = false
         registerButton.topAnchor.constraint(equalTo: userNameTextfield.bottomAnchor, constant: 5).isActive = true
@@ -213,7 +213,7 @@ class RegistrationModalViewController: UIViewController, RegistrationViewProtoco
         }
     }
     //MARK: Button methods
-    @objc private func tryToRegister() {
+    @objc private func tryToRegisterWithFirebase() {
         animateButton(button: registerButton)
         // hide keyboard
         emailTextfield.resignFirstResponder()
@@ -270,7 +270,7 @@ class RegistrationModalViewController: UIViewController, RegistrationViewProtoco
         errorLabel?.removeFromSuperview()
         errorLabel = nil
         // try to registrer
-        presenter.tryToRegister() { result in
+        presenter.tryToRegisterWithFirebase() { result in
             switch result {
                 //if success -> show next VC
             case .success(_):
@@ -316,7 +316,7 @@ extension RegistrationModalViewController: UITextFieldDelegate {
             userNameTextfield.becomeFirstResponder()
         }
         if textField == self.userNameTextfield {
-            tryToRegister()
+            tryToRegisterWithFirebase()
         }
         return true
     }

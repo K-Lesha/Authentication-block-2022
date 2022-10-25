@@ -14,12 +14,13 @@ protocol LoggedInInteractorProtocol {
     init (networkService: NetworkServiceProtocol, firebaseService: FirebaseServiceProtocol)
     //Firebase methods
     func checkUserLoginnedWithFacebook() -> Bool
-    func logOut()
-    func findNameOfUser(completion: @escaping (String) -> ())
-    func reauthenticateAndDeleteUser(password: String, completion: @escaping (Result<Bool, FireBaseError>) -> ())
+    func logOutWithFirebase()
+    func findUsernameWithFirebaseDatabase(completion: @escaping (String) -> ())
+    func reauthenticateAndDeleteUserWithFirebase(password: String, completion: @escaping (Result<Bool, FireBaseError>) -> ())
 }
 
 class LoggedInInteractor: LoggedInInteractorProtocol {
+    
     //MARK: VIPER protocol
     internal var networkService: NetworkServiceProtocol!
     internal var firebaseService: FirebaseServiceProtocol!
@@ -28,14 +29,14 @@ class LoggedInInteractor: LoggedInInteractorProtocol {
         self.firebaseService = firebaseService
     }
     //MARK: Firebase calls
-    public func logOut() {
-        firebaseService.logOut()
+    public func logOutWithFirebase() {
+        firebaseService.logOutWithFirebase()
     }
-    public func findNameOfUser(completion: @escaping (String) -> ()) {
-        firebaseService.findNameOfUser(completion: completion)
+    public func findUsernameWithFirebaseDatabase(completion: @escaping (String) -> ()) {
+        firebaseService.findUsernameWithFirebaseDatabase(completion: completion)
     }
-    public func reauthenticateAndDeleteUser(password: String, completion: @escaping (Result<Bool, FireBaseError>) -> ()) {
-        firebaseService.reauthenticateAndDeleteUser(password: password, completion: completion)
+    public func reauthenticateAndDeleteUserWithFirebase(password: String, completion: @escaping (Result<Bool, FireBaseError>) -> ()) {
+        firebaseService.reauthenticateAndDeleteUserWithFirebase(password: password, completion: completion)
     }
     public func checkUserLoginnedWithFacebook() -> Bool {
         return firebaseService.checkUserLoginnedWithFacebook()

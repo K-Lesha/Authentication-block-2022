@@ -141,7 +141,6 @@ class AuthViewController: UIViewController, AuthViewProtocol {
             self.errorButton?.widthAnchor.constraint(equalToConstant: 130).isActive = true
         }
     }
-    //MARK: Button methods
     private func animateButton(button: UIButton) {
         //button animation
         UIView.animate(withDuration: 0.2, animations: { () -> Void in
@@ -153,6 +152,8 @@ class AuthViewController: UIViewController, AuthViewProtocol {
             })
         }
     }
+
+    //MARK: Button methods
     @objc private func errorButtonPushed() {
         animateButton(button: errorButton ?? UIButton())
         errorButton?.removeFromSuperview()
@@ -161,7 +162,6 @@ class AuthViewController: UIViewController, AuthViewProtocol {
         errorLabel = nil
         self.checkInternetConnectionAndSetupViews()
     }
-    //MARK: NAVIGATION
     @objc private func signInButtonPushed() {
         animateButton(button: signInButton)
         let viewControllerToPresent = SignInModalViewController(initialHeight: 200, presenter: self.presenter)

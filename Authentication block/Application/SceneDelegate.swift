@@ -17,33 +17,31 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
         
+        let navigationController = UINavigationController()
+        let firebaseService = FirebaseService()
+        let networkService = NetworkService()
+        let assemblyBuilder = AssemblyModuleBuilder(networkService: networkService, firebaseService: firebaseService)
+        
         print("Auth check: is user loginned?")
         Auth.auth().addStateDidChangeListener { auth, user in
             if user == nil {
-                print("user == nil, first module initialization")
-                let navigationController = UINavigationController()
-                let firebaseService = FirebaseService()
-                let networkService = NetworkService()
-                let assemblyBuilder = AssemblyModuleBuilder(networkService: networkService, firebaseService: firebaseService)
+                print("user == nil, auth module initialization")
                 let router = Router(navigationController: navigationController, assemblyBuilder: assemblyBuilder)
                 router.showAuthModule()
-                self.window?.rootViewController = navigationController
             } else {
-                print("user != nil, second module initialization")
-                guard let user = user else {return}
-                let navigationController = UINavigationController()
-                let firebaseService = FirebaseService()
-                let networkService = NetworkService()
-                let assemblyBuilder = AssemblyModuleBuilder(networkService: networkService, firebaseService: firebaseService)
+                print("user != nil, logged in module initialization")
+                guard let user = user else {
+                    fatalError("failed")
+                }
                 let router = Router(navigationController: navigationController, assemblyBuilder: assemblyBuilder)
                 router.showLoggedInModule(userUID: user.uid)
-                self.window?.rootViewController = navigationController
             }
         }
+        self.window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
     }
     
-
+    
     
     
     func sceneDidDisconnect(_ scene: UIScene) {

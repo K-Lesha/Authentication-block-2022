@@ -32,7 +32,7 @@ class Router: RouterProtocol {
     //MARK: METHODS
     public func showAuthModule() {
         if let navigationController = navigationController {
-            guard let startHereViewController = assemblyBuilder?.createMainModule(router: self) else { return }
+            guard let startHereViewController = assemblyBuilder?.createAuthModule(router: self) else { return }
             navigationController.viewControllers = [startHereViewController]
         }
     }

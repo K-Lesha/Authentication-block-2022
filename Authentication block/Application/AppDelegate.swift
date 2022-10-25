@@ -13,11 +13,11 @@ import FBSDKCoreKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        print("Facebook.configure")
+        print("Facebook.configure:")
         let _ = ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
-        print("FirebaseApp.configure")
+        print("FirebaseApp.configure:")
         FirebaseApp.configure()
-        print("Appearance.configure")
+        print("Appearance.configure:")
         Appearance.configure()
         return true
     }

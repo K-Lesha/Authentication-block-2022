@@ -16,11 +16,11 @@ protocol AuthInteractorProtocol {
     func checkInternetConnection() -> Bool
     func downloadImage(urlString: String, completionBlock: @escaping (Result<Data, NetworkError>) -> Void)
     // Firebase methods
-    func tryToRegister(userName: String, email: String, password: String, completion: @escaping (Result<String, FireBaseError>) -> ())
-    func tryToLogIn(email: String, password: String, completion: @escaping (Result<String, FireBaseError>) -> ())
+    func tryToRegisterWithFirebase(userName: String, email: String, password: String, completion: @escaping (Result<String, FireBaseError>) -> ())
+    func tryToLogInWithFirebase(email: String, password: String, completion: @escaping (Result<String, FireBaseError>) -> ())
     func tryToLoginWithFacebook(viewController: SignInViewProtocol, completion: @escaping (Result<String, FireBaseError>) -> ())
     func tryToLoginWithGoogle(viewController: SignInViewProtocol, completion: @escaping (Result<String, FireBaseError>) -> ())
-    func restorePassword(email: String, completion: @escaping (Result<Bool, FireBaseError>) -> ())
+    func restorePasswordWithFirebase(email: String, completion: @escaping (Result<Bool, FireBaseError>) -> ())
 }
 
 class AuthInteractor: AuthInteractorProtocol {
@@ -40,17 +40,17 @@ class AuthInteractor: AuthInteractorProtocol {
         networkService.downloadImage(urlString: urlString, completionBlock: completionBlock)
     }
     //MARK: Firebase calls
-    internal func tryToRegister(userName: String, email: String, password: String, completion: @escaping (Result<String, FireBaseError>) -> ()) {
-        firebaseService.tryToRegister(userName: userName, email: email, password: password, completion: completion)
+    internal func tryToRegisterWithFirebase(userName: String, email: String, password: String, completion: @escaping (Result<String, FireBaseError>) -> ()) {
+        firebaseService.tryToRegisterWithFirebase(userName: userName, email: email, password: password, completion: completion)
     }
-    internal func tryToLogIn(email: String, password: String, completion: @escaping (Result<String, FireBaseError>) -> ()) {
-        firebaseService.tryToLogIn(email: email, password: password, completion: completion)
+    internal func tryToLogInWithFirebase(email: String, password: String, completion: @escaping (Result<String, FireBaseError>) -> ()) {
+        firebaseService.tryToLogInWithFirebase(email: email, password: password, completion: completion)
     }
     internal func tryToLoginWithFacebook(viewController: SignInViewProtocol, completion: @escaping (Result<String, FireBaseError>) -> ()) {
         firebaseService.tryToLoginWithFacebook(viewController: viewController, completion: completion)
     }
-    internal func restorePassword(email: String, completion: @escaping (Result<Bool, FireBaseError>) -> ()) {
-        firebaseService.restorePassword(email: email, completion: completion)
+    internal func restorePasswordWithFirebase(email: String, completion: @escaping (Result<Bool, FireBaseError>) -> ()) {
+        firebaseService.restorePasswordWithFirebase(email: email, completion: completion)
     }
     internal func tryToLoginWithGoogle(viewController: SignInViewProtocol, completion: @escaping (Result<String, FireBaseError>) -> ()) {
         firebaseService.tryToLoginWithGoogle(viewController: viewController, completion: completion)

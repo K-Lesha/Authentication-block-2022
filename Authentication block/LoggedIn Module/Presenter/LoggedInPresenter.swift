@@ -18,8 +18,8 @@ protocol LoggedInPresenterProtocol: AnyObject {
     var userName: String! {get set}
     var userUID: String! {get set}
     // METHODS
-    func logOut()
-    func reauthenticateAndDeleteUser(password: String, completion: @escaping (Result<Bool, FireBaseError>) -> ())
+    func logOutWithFirebase()
+    func reauthenticateAndDeleteUserWithFirebase(password: String, completion: @escaping (Result<Bool, FireBaseError>) -> ())
     func checkUserLoginnedWithFacebook() -> Bool
 }
 
@@ -34,7 +34,7 @@ class LoggedInPresenter: LoggedInPresenterProtocol {
         self.interactor = interactor
         self.router = router
         self.userUID = userUID
-        interactor.findNameOfUser() { userName in
+        interactor.findUsernameWithFirebaseDatabase() { userName in
             self.userName = userName
         }
     }
@@ -47,11 +47,11 @@ class LoggedInPresenter: LoggedInPresenterProtocol {
     internal var userUID: String!
     
     //MARK: METHODS
-    public func logOut() {
-        interactor.logOut()
+    public func logOutWithFirebase() {
+        interactor.logOutWithFirebase()
     }
-    public func reauthenticateAndDeleteUser(password: String, completion: @escaping (Result<Bool, FireBaseError>) -> ()) {
-        interactor.reauthenticateAndDeleteUser(password: password, completion: completion)
+    public func reauthenticateAndDeleteUserWithFirebase(password: String, completion: @escaping (Result<Bool, FireBaseError>) -> ()) {
+        interactor.reauthenticateAndDeleteUserWithFirebase(password: password, completion: completion)
     }
     public func checkUserLoginnedWithFacebook() -> Bool {
         return interactor.checkUserLoginnedWithFacebook()
